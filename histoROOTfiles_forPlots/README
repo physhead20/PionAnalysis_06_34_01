@@ -1,0 +1,4 @@
+This directory is where the various macros should save their histograms for
+plotting later.
+
+various scripts call histogram files from this directory
