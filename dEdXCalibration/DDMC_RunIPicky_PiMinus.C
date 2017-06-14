@@ -170,7 +170,7 @@ double ZUpperFid = 90;
 
 // ###                 Note: Format for this variable is:             ###
 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
-int plane = 1;
+int plane = 0;
 
 
 // ########################################################################
@@ -223,7 +223,7 @@ int MatchWCTrackIndex[10] = {0};
 
 // ====================================================
 // ======  Make histogram file for data sample  ======= 
-TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus.root","RECREATE");
+TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus_Induction.root","RECREATE");
 
 // ###############################
 // ### Looping over all events ###
