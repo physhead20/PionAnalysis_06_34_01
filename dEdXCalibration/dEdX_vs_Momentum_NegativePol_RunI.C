@@ -50,15 +50,15 @@ for(int a = 0; a < 21; a++){binXError[a] = 25.;}
 // ### Collection Plane ###
 // ########################
 
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE.root");
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE_ThrouhGoing.root");
+TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE.root");
+//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HighYield_PiMuE.root");
 
 
 
 // #######################
 // ### Induction Plane ###
 // #######################
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE_InductionPlane.root");
+//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HighYield_PiMuE_Induction.root");
 
 
 
@@ -70,7 +70,7 @@ TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE_
 TH1F *h150_200 = (TH1F*)f1->Get("hdatadEdX_150_200");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h150_200->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h150_200->Fit(data_gaus,"R+0LLi","0",1.0, 5.00);
 
 dEdX[0]       = data_gaus->GetParameter(1);
 dEdXError[0]  = data_gaus->GetParError(1);
@@ -81,7 +81,7 @@ dEdXError[0]  = data_gaus->GetParError(1);
 TH1F *h200_250 = (TH1F*)f1->Get("hdatadEdX_200_250");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h200_250->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h200_250->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[1]       = data_gaus->GetParameter(1);
 dEdXError[1]  = data_gaus->GetParError(1);
@@ -98,7 +98,7 @@ dEdXErrorLessbin[0] = sqrt( (dEdXError[0]*dEdXError[0])+(dEdXError[1]*dEdXError[
 TH1F *h250_300 = (TH1F*)f1->Get("hdatadEdX_250_300");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h250_300->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h250_300->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[2]       = data_gaus->GetParameter(1);
 dEdXError[2]  = data_gaus->GetParError(1);
@@ -108,7 +108,7 @@ dEdXError[2]  = data_gaus->GetParError(1);
 TH1F *h300_350 = (TH1F*)f1->Get("hdatadEdX_300_350");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h300_350->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h300_350->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[3]       = data_gaus->GetParameter(1);
 dEdXError[3]  = data_gaus->GetParError(1);
@@ -234,7 +234,7 @@ dEdXErrorLessbin[5] = sqrt( (dEdXError[10]*dEdXError[10])+(dEdXError[11]*dEdXErr
 TH1F *h750_800 = (TH1F*)f1->Get("hdatadEdX_750_800");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h750_800->Fit(data_gaus,"R+0LLi","0",0.5, 5.00);
+h750_800->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[12]       = data_gaus->GetParameter(1);
 dEdXError[12]  = data_gaus->GetParError(1);
@@ -260,7 +260,7 @@ dEdXErrorLessbin[6] = sqrt( (dEdXError[12]*dEdXError[12])+(dEdXError[13]*dEdXErr
 TH1F *h850_900 = (TH1F*)f1->Get("hdatadEdX_850_900");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h850_900->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h850_900->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[14]       = data_gaus->GetParameter(1);
 dEdXError[14]  = data_gaus->GetParError(1);
@@ -270,7 +270,7 @@ dEdXError[14]  = data_gaus->GetParError(1);
 TH1F *h900_950 = (TH1F*)f1->Get("hdatadEdX_900_950");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h900_950->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h900_950->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[15]       = data_gaus->GetParameter(1);
 dEdXError[15]  = data_gaus->GetParError(1);
@@ -286,7 +286,7 @@ dEdXErrorLessbin[7] = sqrt( (dEdXError[14]*dEdXError[14])+(dEdXError[15]*dEdXErr
 TH1F *h950_1000 = (TH1F*)f1->Get("hdatadEdX_950_1000");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h950_1000->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h950_1000->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[16]       = data_gaus->GetParameter(1);
 dEdXError[16]  = data_gaus->GetParError(1);
@@ -297,7 +297,7 @@ dEdXError[16]  = data_gaus->GetParError(1);
 TH1F *h1000_1050 = (TH1F*)f1->Get("hdatadEdX_1000_1050");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1000_1050->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h1000_1050->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[17]       = data_gaus->GetParameter(1);
 dEdXError[17]  = data_gaus->GetParError(1);
@@ -312,7 +312,7 @@ dEdXErrorLessbin[8] = sqrt( (dEdXError[16]*dEdXError[16])+(dEdXError[17]*dEdXErr
 TH1F *h1050_1100 = (TH1F*)f1->Get("hdatadEdX_1050_1100");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1050_1100->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h1050_1100->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[18]       = data_gaus->GetParameter(1);
 dEdXError[18]  = data_gaus->GetParError(1);
@@ -322,7 +322,7 @@ dEdXError[18]  = data_gaus->GetParError(1);
 TH1F *h1100_1150 = (TH1F*)f1->Get("hdatadEdX_1100_1150");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1100_1150->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h1100_1150->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[19]       = data_gaus->GetParameter(1);
 dEdXError[19]  = data_gaus->GetParError(1);
@@ -333,7 +333,7 @@ dEdXError[19]  = data_gaus->GetParError(1);
 TH1F *h1150_1200 = (TH1F*)f1->Get("hdatadEdX_1150_1200");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1150_1200->Fit(data_gaus,"R+0LLi","0",0.25, 5.00);
+h1150_1200->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
 
 dEdX[20]       = data_gaus->GetParameter(1);
 dEdXError[20]  = data_gaus->GetParError(1);

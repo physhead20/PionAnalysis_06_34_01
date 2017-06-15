@@ -210,7 +210,7 @@ int plane = 1;
 // ### Definition of the upstream part of the TPC where we restrict the ###
 // ###             number of tracks which can be present                ###
 // ########################################################################
-int UpperPartOfTPC = 14.0;
+int UpperPartOfTPC = 5.0;
 
 // #################################################################################
 // ### Making shower Cut (ShortTkLength) and the number of short tracks we allow ###
@@ -525,7 +525,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 // ##########################################################################
 	 // ### Calculating the Delta X and Delta Y between WC track and TPC track ###
 	 // ##########################################################################
-	 DeltaX_WC_TPC_Track = FirstSpacePointX - (wctrk_XFaceCoor[numWCTrk]);//<---Note: *0.1 to convert to cm
+	 DeltaX_WC_TPC_Track = FirstSpacePointX - (wctrk_XFaceCoor[numWCTrk]);
 	 DeltaY_WC_TPC_Track = FirstSpacePointY - (wctrk_YFaceCoor[numWCTrk]);
 	 
 	 

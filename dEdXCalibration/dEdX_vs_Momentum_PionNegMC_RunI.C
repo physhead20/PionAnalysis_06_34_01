@@ -48,12 +48,12 @@ for(int a = 0; a < 21; a++){binXError[a] = 25.;}
 // ########################
 // ### Collection Plane ###
 // ########################
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus.root");
+TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus.root");
 
 // #######################
 // ### Induction Plane ###
 // #######################
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus_Induction.root");
+//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus_Induction.root");
 
 //------------------------------------------------------------------------------
 // ### Getting the data dE/dX plot ###

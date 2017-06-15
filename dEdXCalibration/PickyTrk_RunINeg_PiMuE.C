@@ -204,14 +204,14 @@ double ZUpperFid = 90;
 
 // ###                 Note: Format for this variable is:             ###
 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
-int plane = 0;
+int plane = 1;
 
 
 // ########################################################################
 // ### Definition of the upstream part of the TPC where we restrict the ###
 // ###             number of tracks which can be present                ###
 // ########################################################################
-int UpperPartOfTPC = 14.0;
+int UpperPartOfTPC = 5.0;
 
 // #################################################################################
 // ### Making shower Cut (ShortTkLength) and the number of short tracks we allow ###
@@ -283,7 +283,7 @@ int MatchWCTrackIndex[10] = {0};
 
 // ====================================================
 // ======  Make histogram file for data sample  ======= 
-TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE_InductionPlane.root","RECREATE");
+TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE.root","RECREATE");
 
 // ###############################
 // ### Looping over all events ###
