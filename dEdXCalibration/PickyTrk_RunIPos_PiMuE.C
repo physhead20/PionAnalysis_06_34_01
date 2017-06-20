@@ -1,5 +1,5 @@
-#define PickyTrk_RunIPos_Proton_cxx
-#include "PickyTrk_RunIPos_Proton.h"
+#define PickyTrk_RunIPos_PiMuE_cxx
+#include "PickyTrk_RunIPos_PiMuE.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -73,6 +73,9 @@ TH1D *hdataAlpha = new TH1D("hdataAlpha", "#alpha between WC and TPC Track", 90,
 /////////////////////////////////// Number of Matched Tracks ////////////////////////////////////////////////
 TH1D *hdataNMatchTPCWCTrk = new TH1D("hdataNMatchTPCWCTrk", "Number of matched TPC/WC Tracks", 20, 0, 10);
 
+/////////////////////////////////// Track Length Used in Calibration ////////////////////////////////////////////////
+TH1D *hdataCalibTrkLength = new TH1D("hdataCalibTrkLength", "Track length used in calibration", 80, 0, 40);
+
 /////////////////////////////////// "Matched Track" dE/dX 150 - 200 MeV Momentum /////////////////////////////////////////////////////
 TH1D *hdatadEdX = new TH1D("hdatadEdX", "Matched Track dE/dX", 200, 0, 50);
 
@@ -144,7 +147,8 @@ TH1D *hdatadEdX_1150_1200 = new TH1D("hdatadEdX_1150_1200", "Matched Track dE/dX
 
 
 
-void PickyTrk_RunIPos_Proton::Loop()
+
+void PickyTrk_RunIPos_PiMuE::Loop()
 {
 if (fChain == 0) return;
 Long64_t nentries = fChain->GetEntriesFast();
@@ -172,17 +176,17 @@ double alphaCut = 10;
 // ### Setting the Wire Chamber momentum range and ###
 // ###     the TOF range for good particle ID      ###
 // ###################################################
-//double LowerWCTrkMomentum = 100.0; //<--(MeV)
-//double HighWCTrkMomentum  = 2000.0;//<--(MeV)
+double LowerWCTrkMomentum = 100.0; //<--(MeV)
+double HighWCTrkMomentum  = 2000.0;//<--(MeV)
 
-double LowerWCTrkMomentum = 450.0; //<--(MeV)
-double HighWCTrkMomentum  = 1100.0;//<--(MeV)
+//double LowerWCTrkMomentum = 450.0; //<--(MeV)
+//double HighWCTrkMomentum  = 1100.0;//<--(MeV)
 
-//double LowerTOF = 10.0; //<--(ns)
-//double HighTOF  = 30.0; //<--(ns)
+double LowerTOF = 10.0; //<--(ns)
+double HighTOF  = 30.0; //<--(ns)
 
-double LowerTOF = 28.0; //<--(ns)
-double HighTOF  = 55.0; //<--(ns)
+//double LowerTOF = 28.0; //<--(ns)
+//double HighTOF  = 55.0; //<--(ns)
 
 
 // ########################################################################
@@ -207,7 +211,7 @@ int plane = 1;
 // ### Definition of the upstream part of the TPC where we restrict the ###
 // ###             number of tracks which can be present                ###
 // ########################################################################
-int UpperPartOfTPC = 14.0;
+int UpperPartOfTPC = 5.0;
 
 // #################################################################################
 // ### Making shower Cut (ShortTkLength) and the number of short tracks we allow ###
@@ -261,7 +265,7 @@ bool VERBOSE = false;
 
 
 // ### The assumed energy loss between the cryostat and the TPC ###
-float entryTPCEnergyLoss = 65.; //MeV
+float entryTPCEnergyLoss = 40.; //MeV
 
 
 // ##########################################################
@@ -279,7 +283,7 @@ int MatchWCTrackIndex[10] = {0};
 
 // ====================================================
 // ======  Make histogram file for data sample  ======= 
-TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunIPos_Picky_Proton.root","RECREATE");
+TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunIPos_Picky_PiMuE.root","RECREATE");
 
 // ###############################
 // ### Looping over all events ###
@@ -857,6 +861,8 @@ if(AtLeastOneThroughGoingTrack){nEvtsThroughGoing++;}
       // ### Skipping any track with too few spacepoints ###
       if(nSpacePoints[nTPCtrk] < 20 && AtLeastOneThroughGoingTrack){continue;}
       
+      double trkLengthUsed = 0;
+      
       
       for(int nspts = 0; nspts < nSpacePoints[nTPCtrk]; nspts++)
          {
@@ -865,7 +871,17 @@ if(AtLeastOneThroughGoingTrack){nEvtsThroughGoing++;}
 	 if(DataSptPitch[nTPCtrk][nspts] > 0.4)
 	 {hdataTrkPitch->Fill(DataSptPitch[nTPCtrk][nspts]);}
 	 
+	 if(nspts < 12)
+	    {
+	    trkLengthUsed += DataSptPitch[nTPCtrk][nspts];
+	    
+	    }//<---end using only first few points
+	 
 	 }
+      
+      // ### Filling the track length used for the calibration ###
+      hdataCalibTrkLength->Fill(trkLengthUsed);
+      
       
       // -----------------------------
       // --- 150 MeV < P < 200 MeV ---
@@ -1238,6 +1254,8 @@ hdataTrkPitch->Write();
 hdataDeltaWCTrkX->Write();
 hdataDeltaWCTrkY->Write();
 hdataAlpha->Write();
+hdataCalibTrkLength->Write();
+
 
 hdatadEdX_150_200->Write();
 hdatadEdX_200_250->Write();

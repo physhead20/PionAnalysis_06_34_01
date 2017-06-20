@@ -153,8 +153,9 @@ TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h450_500->Fit(data_gaus,"R+0LLi","0",2.5, 10.00);
 
-dEdX[6]       = data_gaus->GetParameter(1);
-dEdXError[6]  = data_gaus->GetParError(1);
+// !!!! This bin has too little data for consideration !!!!
+dEdX[6]       = 0;//data_gaus->GetParameter(1);
+dEdXError[6]  = 0;//data_gaus->GetParError(1);
 
 
 //------------------------------------------------------------------------------
@@ -164,8 +165,10 @@ TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h500_550->Fit(data_gaus,"R+0LLi","0",2.5, 10.00);
 
-dEdX[7]       = data_gaus->GetParameter(1);
-dEdXError[7]  = data_gaus->GetParError(1);
+
+// !!!! This bin has too little data for consideration !!!!
+dEdX[7]       = 0;//data_gaus->GetParameter(1);
+dEdXError[7]  = 0;//data_gaus->GetParError(1);
 
 
 //==============================================================================
@@ -179,7 +182,7 @@ dEdXErrorLessbin[3] = sqrt( (dEdXError[6]*dEdXError[6])+(dEdXError[7]*dEdXError[
 TH1F *h550_600 = (TH1F*)f1->Get("hdatadEdX_550_600");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h550_600->Fit(data_gaus,"R+0LLi","0",2.5, 10.00);
+h550_600->Fit(data_gaus,"R+0LLi","0",4.5, 10.00);
 
 dEdX[8]       = data_gaus->GetParameter(1);
 dEdXError[8]  = data_gaus->GetParError(1);
@@ -350,7 +353,7 @@ const Int_t o = 35;
 gr  = new TGraphErrors(n,binXLessbin,dEdXLessbin,binXErrorLessbin,dEdXErrorLessbin);
 gr->SetFillColor(kWhite);
 gr->SetFillStyle(3005);
-gr->SetLineColor(kAzure+2);
+gr->SetLineColor(kBlack);
 gr->SetLineWidth(2);
 
 
@@ -358,7 +361,7 @@ gr->SetLineWidth(2);
 grFullBin  = new TGraphErrors(nn,binX,dEdX,binXError,dEdXError);
 grFullBin->SetFillColor(kWhite);
 grFullBin->SetFillStyle(3005);
-grFullBin->SetLineColor(kAzure+2);
+grFullBin->SetLineColor(kBlack);
 grFullBin->SetLineWidth(2);
 
 const Int_t m = 49;
@@ -391,6 +394,12 @@ TCanvas *c01 = new TCanvas("c01", "Low bin data");
 c01->SetTicks();
 c01->SetFillColor(kWhite);
 
+gr->SetMaximum(8.5);
+gr->SetMinimum(1.3);
+
+gr->GetXaxis()->SetRangeUser(450, 1200);
+
+
 gr->Draw("AP");
 grMuon->Draw("Csame");
 grPion->Draw("Csame");
@@ -416,19 +425,20 @@ t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
 t->DrawLatex(0.13,0.84,"");
 
 TLegend *leg = new TLegend();
-leg = new TLegend(0.58,0.65,0.88,0.88);
+leg = new TLegend(0.48,0.65,0.88,0.88);
 leg->SetTextSize(0.04);
 leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
 leg->SetHeader("LArIAT Run-I Positive Polarity");
-leg->AddEntry(gr,"e/#pi/#mu Data");
+leg->AddEntry(gr,"Proton Data");
 leg->AddEntry(grMuon,"Muon"); 
 leg->AddEntry(grPion,"Pion");
 leg->AddEntry(grProton,"Proton");
 leg->Draw();
 
+c01->Print("images/dEdXvsMomentumPosPolRun1ProtonFineBin.png");
 
 
 // ########################
@@ -437,6 +447,11 @@ leg->Draw();
 TCanvas *c02 = new TCanvas("c02", "High bin data");
 c02->SetTicks();
 c02->SetFillColor(kWhite);
+
+grFullBin->SetMaximum(8.5);
+grFullBin->SetMinimum(1.3);
+
+grFullBin->GetXaxis()->SetRangeUser(450, 1200);
 
 grFullBin->Draw("AP");
 grMuon->Draw("Csame");
@@ -462,17 +477,42 @@ t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
 t->DrawLatex(0.13,0.84,"");
 
 TLegend *leg = new TLegend();
-leg = new TLegend(0.58,0.65,0.88,0.88);
+leg = new TLegend(0.48,0.65,0.88,0.88);
 leg->SetTextSize(0.04);
 leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
 leg->SetHeader("LArIAT Run-I Positive Polarity");
-leg->AddEntry(gr,"Proton MC");
+leg->AddEntry(grFullBin,"Proton Data");
 leg->AddEntry(grMuon,"Muon"); 
 leg->AddEntry(grPion,"Pion");
 leg->AddEntry(grProton,"Proton");
 leg->Draw();
+
+c02->Print("images/dEdXvsMomentumPosPolProtonRun1VeryFineBin.png");
+
+// ########################
+// ### Making a TCanvas ###
+// ########################
+TCanvas *c03 = new TCanvas("c03", "High bin data");
+c03->SetTicks();
+c03->SetFillColor(kWhite);
+
+hdatadEdX->SetFillColor(kWhite);
+hdatadEdX->SetFillStyle(3005);
+hdatadEdX->SetLineColor(kBlack);
+hdatadEdX->SetLineWidth(2);
+
+// ### Labeling the axis ###
+hdatadEdX->GetXaxis()->SetTitle("dE/dX (MeV/cm)");
+hdatadEdX->GetXaxis()->CenterTitle();
+
+hdatadEdX->GetXaxis()->SetRangeUser(0, 20);
+
+hdatadEdX->GetYaxis()->SetTitle("Events / 0.5 MeV/cm");
+hdatadEdX->GetYaxis()->CenterTitle();
+
+hdatadEdX->Draw("E1");
 
 }//<---End File

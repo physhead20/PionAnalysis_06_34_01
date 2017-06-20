@@ -380,6 +380,9 @@ TCanvas *c01 = new TCanvas("c01", "Low bin data");
 c01->SetTicks();
 c01->SetFillColor(kWhite);
 
+gr->SetMaximum(2.5);
+gr->SetMinimum(1.3);
+
 gr->Draw("AP");
 grMuon->Draw("Csame");
 grPion->Draw("Csame");
@@ -404,7 +407,7 @@ t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
 t->DrawLatex(0.13,0.84,"");
 
 TLegend *leg = new TLegend();
-leg = new TLegend(0.58,0.65,0.88,0.88);
+leg = new TLegend(0.48,0.65,0.88,0.88);
 leg->SetTextSize(0.04);
 leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
@@ -416,6 +419,8 @@ leg->AddEntry(grMuon,"Muon");
 leg->AddEntry(grPion,"Pion");
 leg->Draw();
 
+c01->Print("images/dEdXvsMomentumPosPolRun2FineBin.png");
+
 
 
 // ########################
@@ -424,6 +429,9 @@ leg->Draw();
 TCanvas *c02 = new TCanvas("c02", "High bin data");
 c02->SetTicks();
 c02->SetFillColor(kWhite);
+
+grFullBin->SetMaximum(2.5);
+grFullBin->SetMinimum(1.3);
 
 grFullBin->Draw("AP");
 grMuon->Draw("Csame");
@@ -448,7 +456,7 @@ t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
 t->DrawLatex(0.13,0.84,"");
 
 TLegend *leg = new TLegend();
-leg = new TLegend(0.58,0.65,0.88,0.88);
+leg = new TLegend(0.48,0.65,0.88,0.88);
 leg->SetTextSize(0.04);
 leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
@@ -459,5 +467,30 @@ leg->AddEntry(gr,"e/#pi/#mu Data");
 leg->AddEntry(grMuon,"Muon"); 
 leg->AddEntry(grPion,"Pion");
 leg->Draw();
+
+c02->Print("images/dEdXvsMomentumPosPolRun2VeryFinesBin.png");
+
+// ########################
+// ### Making a TCanvas ###
+// ########################
+TCanvas *c03 = new TCanvas("c03", "High bin data");
+c03->SetTicks();
+c03->SetFillColor(kWhite);
+
+hdatadEdX->SetFillColor(kWhite);
+hdatadEdX->SetFillStyle(3005);
+hdatadEdX->SetLineColor(kBlack);
+hdatadEdX->SetLineWidth(2);
+
+// ### Labeling the axis ###
+hdatadEdX->GetXaxis()->SetTitle("dE/dX (MeV/cm)");
+hdatadEdX->GetXaxis()->CenterTitle();
+
+hdatadEdX->GetXaxis()->SetRangeUser(0, 11);
+
+hdatadEdX->GetYaxis()->SetTitle("Events / 0.5 MeV/cm");
+hdatadEdX->GetYaxis()->CenterTitle();
+
+hdatadEdX->Draw("E1");
 
 }//<---End File

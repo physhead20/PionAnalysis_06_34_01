@@ -61,6 +61,9 @@ TH1D *hMCWCTrackMomentum = new TH1D("hMCWCTrackMomentum", "WCTrack Momentum", 25
 /////////////////////////////////// Track Length Used in Calibration ////////////////////////////////////////////////
 TH1D *hdataCalibTrkLength = new TH1D("hdataCalibTrkLength", "Track length used in calibration", 80, 0, 40);
 
+/////////////////////////////////// True Energy Loss Upstream of the TPC ////////////////////////////////////////////////
+TH1D *hdataTrueEnergyLoss = new TH1D("hdataTrueEnergyLoss", "MC Truth Energy Loss Upstream", 100, 0, 200);
+
 /////////////////////////////////// "Matched Track" dE/dX 150 - 200 MeV Momentum /////////////////////////////////////////////////////
 TH1D *hdatadEdX_150_200 = new TH1D("hdatadEdX_150_200", "Matched Track dE/dX 150 MeV < P < 200 MeV", 200, 0, 50);
 
@@ -336,6 +339,8 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	       EnergyLossOutsideTPC +=  Energy_Point1 - Energy_Point2;
 	       }//<---End Looking at energy loss upstream of TPC
 	    }//<---End iPirTrj
+	 
+	 hdataTrueEnergyLoss->Fill(EnergyLossOutsideTPC);
 	 
 	 nG4Primary++;
 	 
@@ -1236,6 +1241,8 @@ std::cout<<"Events w/ through going track       = "<<nEvtsThroughGoing<<std::end
 
 hdatadEdX->Write();
 hMCWCTrackMomentum->Write();
+hdataTrueEnergyLoss->Write();
+hdataCalibTrkLength->Write();
 hdatadEdX_150_200->Write();
 hdatadEdX_200_250->Write();
 hdatadEdX_250_300->Write();

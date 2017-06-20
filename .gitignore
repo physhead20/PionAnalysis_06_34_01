@@ -9,3 +9,13 @@ dEdXCalibration/*.so
 dEdXCalibration/*.d
 dEdXCalibration/*.gif
 dEdXCalibration/*.root
+
+RunI_Data/*.so
+RunI_Data/*.d
+RunI_Data/*.gif
+RunI_Data/*.root
+
+PionMC/*.so
+PionMC/*.d
+PionMC/*.gif
+PionMC/*.root

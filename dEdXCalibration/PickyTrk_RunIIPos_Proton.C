@@ -1,5 +1,5 @@
-#define PickyTrk_RunIPos_Proton_cxx
-#include "PickyTrk_RunIPos_Proton.h"
+#define PickyTrk_RunIIPos_Proton_cxx
+#include "PickyTrk_RunIIPos_Proton.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -144,7 +144,8 @@ TH1D *hdatadEdX_1150_1200 = new TH1D("hdatadEdX_1150_1200", "Matched Track dE/dX
 
 
 
-void PickyTrk_RunIPos_Proton::Loop()
+
+void PickyTrk_RunIIPos_Proton::Loop()
 {
 if (fChain == 0) return;
 Long64_t nentries = fChain->GetEntriesFast();
@@ -279,7 +280,7 @@ int MatchWCTrackIndex[10] = {0};
 
 // ====================================================
 // ======  Make histogram file for data sample  ======= 
-TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunIPos_Picky_Proton.root","RECREATE");
+TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunIIPos_Picky_Proton.root","RECREATE");
 
 // ###############################
 // ### Looping over all events ###

@@ -9,6 +9,7 @@ double dEdX[21] = {0.};
 double dEdXError[21] = {0.};
 
 double binX[21] = {175, 225, 275, 325, 375, 425, 475, 525, 575, 625, 675, 725, 775, 825, 875, 925, 975, 1025, 1075, 1125, 1175};
+//double binX[21] = {125, 175, 225, 275, 325, 375, 425, 475, 525, 575, 625, 675, 725, 775, 825, 875, 925, 975, 1025, 1075, 1125};
 double binXError[21] = {0.};
 
 
@@ -18,28 +19,32 @@ double dEdXErrorLessbin[11] = {0.};
 double binXLessbin[11] = {200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100};
 double binXErrorLessbin[11] = {0.};
 
-double MuonMomentum[35] = {51.77, 56.16, 62.3, 68.02, 76.86, 85.09, 92.85, 100.3, 107.4, 114.3, 121, 127.6, 140.3, 152.7, 164.7, 176.4, 199.4, 
-                           221.8, 254.6, 286.8, 339.6, 356.7, 391.7, 443.2, 494.5, 545.5, 596.4, 647.1, 697.7, 798.7, 899.5, 1000, 1101, 
-			   1301, 1502};
+double MuonMomentum[49] = {27.42, 29.35, 31.16, 32.89, 34.53, 36.11, 39.09, 41.89, 44.53, 47.04, 51.77, 56.16, 62.3, 68.02, 76.86,
+                           85.09, 92.85, 100.3, 107.4, 114.3, 121, 127.6, 140.3, 152.7, 164.7, 176.4, 199.4, 221.8, 254.6, 286.8,
+                           339.6, 356.7, 391.7, 443.2, 494.5, 545.5, 596.4, 647.1, 697.7, 798.7, 899.5, 1000, 1101, 1301, 1502, 1803, 2103,
+			   2604};
 		       
-double MuonMomentumError[35] = {0.};
+double MuonMomentumError[49] = {0.};
 
-double MuonTheorydEdX[35] = {4.979, 4.461, 3.902, 3.502, 3.042, 2.731, 2.508, 2.34, 2.21, 2.107, 2.023, 1.954, 1.848, 1.771, 1.713, 1.67, 1.609, 
-                             1.57, 1.536, 1.519, 1.508, 1.51, 1.51, 1.517, 1.526, 1.537, 1.548, 1.559, 1.57, 1.591, 1.61, 1.628, 1.645, 1.675, 1.7};
-			 
-double MuonTheorydEdXError[35] = {0.};	
-
-double PionMomentum[35] = {67.301, 73.008, 80.99, 88.426, 99.918, 110.617, 120.705, 130.39, 139.62, 148.59, 157.3, 165.88, 182.39, 198.51, 
-                           214.11, 229.32, 259.22, 288.34, 330.98, 372.84, 441.48, 463.71, 509.21, 576.16, 642.85, 709.15, 775.32, 841.23, 
-                           907.01, 1038.31, 1169.35, 1300, 1431.3, 1691.3, 1952.6};
+double PionMomentum[49] = {35.646, 38.155, 40.508, 42.757, 44.889, 46.943, 50.817, 54.457, 57.889, 61.152, 67.301, 73.008, 80.99, 88.426,
+                           99.918, 110.617, 120.705, 130.39, 139.62, 148.59, 157.3, 165.88, 182.39, 198.51, 214.11, 229.32, 259.22, 288.34,
+                           330.98, 372.84, 441.48, 463.71, 509.21, 576.16, 642.85, 709.15, 775.32, 841.23, 907.01, 1038.31, 1169.35, 1300,
+                           1431.3, 1691.3, 1952.6, 2343.9, 2733.9, 3385.2};
 		       
-double PionMomentumError[35] = {0.};
+double PionMomentumError[49] = {0.};
 
-double PionTheorydEdX[35] = {4.979, 4.461, 3.902, 3.502, 3.042, 2.731, 2.508, 2.34, 2.21, 2.107, 2.023, 1.954, 1.848, 1.771, 1.713, 1.67, 
-                             1.609, 1.57, 1.536, 1.519, 1.508, 1.51, 1.51, 1.517, 1.526, 1.537, 1.548, 1.559, 1.57, 1.591, 1.61, 1.628, 
-                             1.645, 1.675, 1.7};
+double ProtonMomentumError[49] = {0.};
+double ProtonMomentum[49] = {304.362, 325.785, 345.876, 365.079, 383.283, 400.821, 433.899, 464.979, 494.283, 522.144, 574.647, 623.376,
+                             691.53, 755.022, 853.146, 944.499, 1030.635, 1113.33, 1192.14, 1268.73, 1343.1, 1416.36, 1557.33, 1694.97,
+                             1828.17, 1958.04, 2213.34, 2461.98, 2826.06, 3183.48, 3769.56, 3959.37, 4347.87, 4919.52, 5488.95, 6055.05,
+                             6620.04, 7182.81, 7744.47, 8865.57, 9984.45, 11100, 12221.1, 14441.1, 16672.2, 20013.3, 23343.3, 28904.4};
+
+double TheorydEdXError[49] = {0.};
+double TheorydEdX[49] = {12.72, 11.46, 10.46, 9.635, 8.949, 8.368, 7.435, 6.719, 6.15, 5.687, 4.979, 4.461, 3.902, 3.502, 3.042, 2.731,
+                         2.508, 2.34, 2.21, 2.107, 2.023, 1.954, 1.848, 1.771, 1.713, 1.67, 1.609, 1.57, 1.536, 1.519, 1.508, 1.51, 1.51,
+                         1.517, 1.526, 1.537, 1.548, 1.559, 1.57, 1.591, 1.61, 1.628, 1.645, 1.675, 1.7, 1.733, 1.761, 1.799};
+
 			 
-double PionTheorydEdXError[35] = {0.};
 
 for(int a = 0; a < 11; a++){binXErrorLessbin[a] = 50.;}
 
@@ -49,30 +54,19 @@ for(int a = 0; a < 21; a++){binXError[a] = 25.;}
 // ########################
 // ### Collection Plane ###
 // ########################
-
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE.root");
-//TFile *f1 = new TFile("./dEdXCalib_RunINeg_Picky_PiMuE.root");
-
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HighYield_PiMuE.root");
-
-
+TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_Proton.root");
 
 // #######################
 // ### Induction Plane ###
 // #######################
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HighYield_PiMuE_Induction.root");
-
-
-
-
-
+//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus_Induction.root");
 
 //------------------------------------------------------------------------------
 // ### Getting the data dE/dX plot ###
 TH1F *h150_200 = (TH1F*)f1->Get("hdatadEdX_150_200");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h150_200->Fit(data_gaus,"R+0LLi","0",1.0, 5.00);
+h150_200->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[0]       = data_gaus->GetParameter(1);
 dEdXError[0]  = data_gaus->GetParError(1);
@@ -83,7 +77,7 @@ dEdXError[0]  = data_gaus->GetParError(1);
 TH1F *h200_250 = (TH1F*)f1->Get("hdatadEdX_200_250");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h200_250->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h200_250->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[1]       = data_gaus->GetParameter(1);
 dEdXError[1]  = data_gaus->GetParError(1);
@@ -100,7 +94,7 @@ dEdXErrorLessbin[0] = sqrt( (dEdXError[0]*dEdXError[0])+(dEdXError[1]*dEdXError[
 TH1F *h250_300 = (TH1F*)f1->Get("hdatadEdX_250_300");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h250_300->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h250_300->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[2]       = data_gaus->GetParameter(1);
 dEdXError[2]  = data_gaus->GetParError(1);
@@ -110,7 +104,7 @@ dEdXError[2]  = data_gaus->GetParError(1);
 TH1F *h300_350 = (TH1F*)f1->Get("hdatadEdX_300_350");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h300_350->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h300_350->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[3]       = data_gaus->GetParameter(1);
 dEdXError[3]  = data_gaus->GetParError(1);
@@ -127,7 +121,7 @@ dEdXErrorLessbin[1] = sqrt( (dEdXError[2]*dEdXError[2])+(dEdXError[3]*dEdXError[
 TH1F *h350_400 = (TH1F*)f1->Get("hdatadEdX_350_400");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h350_400->Fit(data_gaus,"R+0LLi","0",1.25, 5.25);
+h350_400->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[4]       = data_gaus->GetParameter(1);
 dEdXError[4]  = data_gaus->GetParError(1);
@@ -138,7 +132,7 @@ dEdXError[4]  = data_gaus->GetParError(1);
 TH1F *h400_450 = (TH1F*)f1->Get("hdatadEdX_400_450");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h400_450->Fit(data_gaus,"R+0LLi","0",1.25, 3.0);
+h400_450->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[5]       = data_gaus->GetParameter(1);
 dEdXError[5]  = data_gaus->GetParError(1);
@@ -155,7 +149,7 @@ dEdXErrorLessbin[2] = sqrt( (dEdXError[4]*dEdXError[4])+(dEdXError[5]*dEdXError[
 TH1F *h450_500 = (TH1F*)f1->Get("hdatadEdX_450_500");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h450_500->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h450_500->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[6]       = data_gaus->GetParameter(1);
 dEdXError[6]  = data_gaus->GetParError(1);
@@ -166,7 +160,7 @@ dEdXError[6]  = data_gaus->GetParError(1);
 TH1F *h500_550 = (TH1F*)f1->Get("hdatadEdX_500_550");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h500_550->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h500_550->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[7]       = data_gaus->GetParameter(1);
 dEdXError[7]  = data_gaus->GetParError(1);
@@ -183,7 +177,7 @@ dEdXErrorLessbin[3] = sqrt( (dEdXError[6]*dEdXError[6])+(dEdXError[7]*dEdXError[
 TH1F *h550_600 = (TH1F*)f1->Get("hdatadEdX_550_600");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h550_600->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h550_600->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[8]       = data_gaus->GetParameter(1);
 dEdXError[8]  = data_gaus->GetParError(1);
@@ -194,7 +188,7 @@ dEdXError[8]  = data_gaus->GetParError(1);
 TH1F *h600_650 = (TH1F*)f1->Get("hdatadEdX_600_650");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h600_650->Fit(data_gaus,"R+0LLi","0",1.25, 4.00);
+h600_650->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[9]       = data_gaus->GetParameter(1);
 dEdXError[9]  = data_gaus->GetParError(1);
@@ -210,7 +204,7 @@ dEdXErrorLessbin[4] = sqrt( (dEdXError[8]*dEdXError[8])+(dEdXError[9]*dEdXError[
 TH1F *h650_700 = (TH1F*)f1->Get("hdatadEdX_650_700");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h650_700->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h650_700->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[10]       = data_gaus->GetParameter(1);
 dEdXError[10]  = data_gaus->GetParError(1);
@@ -220,7 +214,7 @@ dEdXError[10]  = data_gaus->GetParError(1);
 TH1F *h700_750 = (TH1F*)f1->Get("hdatadEdX_700_750");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h700_750->Fit(data_gaus,"R+0LLi","0",1.25, 6.00);
+h700_750->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[11]       = data_gaus->GetParameter(1);
 dEdXError[11]  = data_gaus->GetParError(1);
@@ -236,7 +230,7 @@ dEdXErrorLessbin[5] = sqrt( (dEdXError[10]*dEdXError[10])+(dEdXError[11]*dEdXErr
 TH1F *h750_800 = (TH1F*)f1->Get("hdatadEdX_750_800");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h750_800->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h750_800->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[12]       = data_gaus->GetParameter(1);
 dEdXError[12]  = data_gaus->GetParError(1);
@@ -246,7 +240,7 @@ dEdXError[12]  = data_gaus->GetParError(1);
 TH1F *h800_850 = (TH1F*)f1->Get("hdatadEdX_800_850");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h800_850->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h800_850->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[13]       = data_gaus->GetParameter(1);
 dEdXError[13]  = data_gaus->GetParError(1);
@@ -262,7 +256,7 @@ dEdXErrorLessbin[6] = sqrt( (dEdXError[12]*dEdXError[12])+(dEdXError[13]*dEdXErr
 TH1F *h850_900 = (TH1F*)f1->Get("hdatadEdX_850_900");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h850_900->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h850_900->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[14]       = data_gaus->GetParameter(1);
 dEdXError[14]  = data_gaus->GetParError(1);
@@ -272,7 +266,7 @@ dEdXError[14]  = data_gaus->GetParError(1);
 TH1F *h900_950 = (TH1F*)f1->Get("hdatadEdX_900_950");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h900_950->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h900_950->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[15]       = data_gaus->GetParameter(1);
 dEdXError[15]  = data_gaus->GetParError(1);
@@ -288,7 +282,7 @@ dEdXErrorLessbin[7] = sqrt( (dEdXError[14]*dEdXError[14])+(dEdXError[15]*dEdXErr
 TH1F *h950_1000 = (TH1F*)f1->Get("hdatadEdX_950_1000");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h950_1000->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h950_1000->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[16]       = data_gaus->GetParameter(1);
 dEdXError[16]  = data_gaus->GetParError(1);
@@ -299,7 +293,7 @@ dEdXError[16]  = data_gaus->GetParError(1);
 TH1F *h1000_1050 = (TH1F*)f1->Get("hdatadEdX_1000_1050");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1000_1050->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h1000_1050->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[17]       = data_gaus->GetParameter(1);
 dEdXError[17]  = data_gaus->GetParError(1);
@@ -314,7 +308,7 @@ dEdXErrorLessbin[8] = sqrt( (dEdXError[16]*dEdXError[16])+(dEdXError[17]*dEdXErr
 TH1F *h1050_1100 = (TH1F*)f1->Get("hdatadEdX_1050_1100");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1050_1100->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h1050_1100->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[18]       = data_gaus->GetParameter(1);
 dEdXError[18]  = data_gaus->GetParError(1);
@@ -324,7 +318,7 @@ dEdXError[18]  = data_gaus->GetParError(1);
 TH1F *h1100_1150 = (TH1F*)f1->Get("hdatadEdX_1100_1150");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1100_1150->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h1100_1150->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[19]       = data_gaus->GetParameter(1);
 dEdXError[19]  = data_gaus->GetParError(1);
@@ -335,7 +329,7 @@ dEdXError[19]  = data_gaus->GetParError(1);
 TH1F *h1150_1200 = (TH1F*)f1->Get("hdatadEdX_1150_1200");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
-h1150_1200->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
+h1150_1200->Fit(data_gaus,"R+0LLi","0",2.0, 10.00);
 
 dEdX[20]       = data_gaus->GetParameter(1);
 dEdXError[20]  = data_gaus->GetParError(1);
@@ -348,14 +342,14 @@ dEdXErrorLessbin[9] = sqrt( (dEdXError[18]*dEdXError[18])+(dEdXError[19]*dEdXErr
 
 const Int_t n = 10;
 const Int_t nn = 20;
-const Int_t m = 35;
+const Int_t m = 49;
 const Int_t o = 35;
 
 // ### Finely binned Data ###
 gr  = new TGraphErrors(n,binXLessbin,dEdXLessbin,binXErrorLessbin,dEdXErrorLessbin);
 gr->SetFillColor(kWhite);
 gr->SetFillStyle(3005);
-gr->SetLineColor(kBlack);
+gr->SetLineColor(kAzure+2);
 gr->SetLineWidth(2);
 
 
@@ -363,21 +357,29 @@ gr->SetLineWidth(2);
 grFullBin  = new TGraphErrors(nn,binX,dEdX,binXError,dEdXError);
 grFullBin->SetFillColor(kWhite);
 grFullBin->SetFillStyle(3005);
-grFullBin->SetLineColor(kBlack);
+grFullBin->SetLineColor(kAzure+2);
 grFullBin->SetLineWidth(2);
 
 // ### Muon Lines ###
-grMuon = new TGraphErrors(m,MuonMomentum,MuonTheorydEdX,MuonMomentumError,MuonTheorydEdXError);
+grMuon = new TGraphErrors(m,MuonMomentum,TheorydEdX,MuonMomentumError,TheorydEdXError);
 grMuon->SetFillColor(kWhite);
 grMuon->SetFillStyle(3005);
 grMuon->SetLineColor(kBlue);
 grMuon->SetLineWidth(2);
 
-grPion = new TGraphErrors(m,PionMomentum,PionTheorydEdX,PionMomentumError,PionTheorydEdXError);
+// ### Pion Lines ###
+grPion = new TGraphErrors(m,PionMomentum,TheorydEdX,PionMomentumError,TheorydEdXError);
 grPion->SetFillColor(kWhite);
 grPion->SetFillStyle(3005);
 grPion->SetLineColor(kRed);
 grPion->SetLineWidth(2);
+
+// ### Proton Lines ###
+grProton = new TGraphErrors(m,ProtonMomentum,TheorydEdX,ProtonMomentumError,TheorydEdXError);
+grProton->SetFillColor(kWhite);
+grProton->SetFillStyle(3005);
+grProton->SetLineColor(kPink+5);
+grProton->SetLineWidth(2);
 
 // ########################
 // ### Making a TCanvas ###
@@ -386,12 +388,15 @@ TCanvas *c01 = new TCanvas("c01", "Low bin data");
 c01->SetTicks();
 c01->SetFillColor(kWhite);
 
-gr->SetMaximum(2.5);
+gr->SetMaximum(8.5);
 gr->SetMinimum(1.3);
+
+gr->GetXaxis()->SetRangeUser(450, 1200);
 
 gr->Draw("AP");
 grMuon->Draw("Csame");
 grPion->Draw("Csame");
+grProton->Draw("Csame");
 
 // ### Labeling the axis ###
 gr->GetXaxis()->SetTitle("Momentum (MeV)");
@@ -420,14 +425,13 @@ leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
 leg->SetHeader("LArIAT Run-I Negative Polarity");
-leg->AddEntry(gr,"e/#pi/#mu Data");
+leg->AddEntry(gr,"Reconstructed Proton MC");
 leg->AddEntry(grMuon,"Muon"); 
 leg->AddEntry(grPion,"Pion");
+leg->AddEntry(grProton,"Proton");
 leg->Draw();
 
-
-c01->Print("images/dEdXvsMomentumNegPolRun1FineBin.png");
-
+c01->Print("images/dEdXvsMomentumProtonMCFineBin.png");
 
 // ########################
 // ### Making a TCanvas ###
@@ -436,12 +440,15 @@ TCanvas *c02 = new TCanvas("c02", "High bin data");
 c02->SetTicks();
 c02->SetFillColor(kWhite);
 
-grFullBin->SetMaximum(2.5);
+grFullBin->SetMaximum(8.5);
 grFullBin->SetMinimum(1.3);
+
+grFullBin->GetXaxis()->SetRangeUser(450, 1200);
 
 grFullBin->Draw("AP");
 grMuon->Draw("Csame");
 grPion->Draw("Csame");
+grProton->Draw("Csame");
 
 // ### Labeling the axis ###
 grFullBin->GetXaxis()->SetTitle("Momentum (MeV)");
@@ -469,12 +476,13 @@ leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
 leg->SetHeader("LArIAT Run-I Negative Polarity");
-leg->AddEntry(grFullBin,"e/#pi/#mu Data");
+leg->AddEntry(gr,"Reconstructed Proton MC");
 leg->AddEntry(grMuon,"Muon"); 
 leg->AddEntry(grPion,"Pion");
+leg->AddEntry(grProton,"Proton");
 leg->Draw();
 
-c02->Print("images/dEdXvsMomentumNegPolRun1LowBin.png");
+c02->Print("images/dEdXvsMomentumProtonMCVeryFineBin.png");
 
 // ########################
 // ### Making a TCanvas ###
@@ -485,19 +493,18 @@ c03->SetFillColor(kWhite);
 
 hdatadEdX->SetFillColor(kWhite);
 hdatadEdX->SetFillStyle(3005);
-hdatadEdX->SetLineColor(kBlack);
+hdatadEdX->SetLineColor(kAzure+2);
 hdatadEdX->SetLineWidth(2);
 
 // ### Labeling the axis ###
 hdatadEdX->GetXaxis()->SetTitle("dE/dX (MeV/cm)");
 hdatadEdX->GetXaxis()->CenterTitle();
 
-hdatadEdX->GetXaxis()->SetRangeUser(0, 11);
+hdatadEdX->GetXaxis()->SetRangeUser(0, 20);
 
 hdatadEdX->GetYaxis()->SetTitle("Events / 0.5 MeV/cm");
 hdatadEdX->GetYaxis()->CenterTitle();
 
 hdatadEdX->Draw("E1");
-
 
 }//<---End File

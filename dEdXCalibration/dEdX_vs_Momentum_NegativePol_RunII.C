@@ -50,9 +50,7 @@ for(int a = 0; a < 21; a++){binXError[a] = 25.;}
 // ### Collection Plane ###
 // ########################
 
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_Picky_PiMuE.root");
-//TFile *f1 = new TFile("./dEdXCalib_RunINeg_Picky_PiMuE.root");
-
+TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunIINeg_Picky_PiMuE.root");
 //TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HighYield_PiMuE.root");
 
 
@@ -419,14 +417,14 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I Negative Polarity");
+leg->SetHeader("LArIAT Run-II Negative Polarity");
 leg->AddEntry(gr,"e/#pi/#mu Data");
 leg->AddEntry(grMuon,"Muon"); 
 leg->AddEntry(grPion,"Pion");
 leg->Draw();
 
 
-c01->Print("images/dEdXvsMomentumNegPolRun1FineBin.png");
+c01->Print("images/dEdXvsMomentumNegPolRun2FineBin.png");
 
 
 // ########################
@@ -468,13 +466,13 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I Negative Polarity");
+leg->SetHeader("LArIAT Run-II Negative Polarity");
 leg->AddEntry(grFullBin,"e/#pi/#mu Data");
 leg->AddEntry(grMuon,"Muon"); 
 leg->AddEntry(grPion,"Pion");
 leg->Draw();
 
-c02->Print("images/dEdXvsMomentumNegPolRun1LowBin.png");
+c02->Print("images/dEdXvsMomentumNegPolRun2VeryFineBin.png");
 
 // ########################
 // ### Making a TCanvas ###
