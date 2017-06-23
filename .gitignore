@@ -19,3 +19,8 @@ PionMC/*.so
 PionMC/*.d
 PionMC/*.gif
 PionMC/*.root
+
+Beamline_Plots/*.so
+Beamline_Plots/*.d
+Beamline_Plots/*.gif
+Beamline_Plots/*.root

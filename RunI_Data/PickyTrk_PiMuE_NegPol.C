@@ -56,7 +56,7 @@ TH1D *hdataWCTRKMomentum = new TH1D("hdataWCTRKMomentum", "WCtrk Momentum (MeV)"
 TH1D *hdataRawWCTRKMomentum = new TH1D("hdataRawWCTRKMomentum", "Raw WCtrk Momentum (MeV)", 250, 0, 2500);
 
 /////////////////////////////////// Initial Kinetic Energy (MeV) /////////////////////////////////////////////
-TH1D *hdataInitialKEMomentum = new TH1D("hdataInitialKEMomentum", "Pion Initial Momentum (MeV)", 500, 0, 2500);
+TH1D *hdataInitialKineticEnergy = new TH1D("hdataInitialKineticEnergy", "Pion Initial Momentum (MeV)", 500, 0, 2500);
 
 /////////////////////////////////// Initial Track X Position ////////////////////////////////////////////////////////
 TH1D *hdataTrkInitialX = new TH1D("hdataTrkInitialX", "Initial X Position of the TPC Track", 100, 0, 50);
@@ -828,7 +828,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    // ###############################################
    // ### Filling the initial kinetic energy plot ###
    // ###############################################
-   hdataInitialKEMomentum->Fill(kineticEnergy);
+   hdataInitialKineticEnergy->Fill(kineticEnergy);
 
 
    // =========================================================================================================================================
@@ -899,30 +899,30 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	       if (hit_plane[ihit] == plane)
 	          {
 	          //DatadEdX[nDataTrks][nDataSpts]     = corrdEdx(hit_dEds[ihit]);
-	          DatadEdX[nDataTrks][nDataSpts]     = hit_dEds[ihit];
-	          DatadQdX[nDataTrks][nDataSpts]     = hit_dQds[ihit];
+	          DatadEdX[nTPCtrk][nDataSpts]     = hit_dEds[ihit];
+	          DatadQdX[nTPCtrk][nDataSpts]     = hit_dQds[ihit];
 	       
-	          DataResRange[nDataTrks][nDataSpts] = hit_resrange[ihit];
-	          DataSptPitch[nDataTrks][nDataSpts] = hit_ds[ihit];
-	          DataSptsX[nDataTrks][nDataSpts] = hit_x[ihit];
-	          DataSptsY[nDataTrks][nDataSpts] = hit_y[ihit];
-	          DataSptsZ[nDataTrks][nDataSpts] = hit_z[ihit];
+	          DataResRange[nTPCtrk][nDataSpts] = hit_resrange[ihit];
+	          DataSptPitch[nTPCtrk][nDataSpts] = hit_ds[ihit];
+	          DataSptsX[nTPCtrk][nDataSpts] = hit_x[ihit];
+	          DataSptsY[nTPCtrk][nDataSpts] = hit_y[ihit];
+	          DataSptsZ[nTPCtrk][nDataSpts] = hit_z[ihit];
 	       
 	          // ###################################################
 	          // ### Adding an option to calculate the 3-d pitch ###
 	          // ###################################################
 	          if(Calculate3dPitch && ihit > 0)
 	             {
-		     float dE = DatadEdX[nDataTrks][nDataSpts] * DataSptPitch[nDataTrks][nDataSpts];
+		     float dE = DatadEdX[nTPCtrk][nDataSpts] * DataSptPitch[nTPCtrk][nDataSpts];
 		  
-		     float dX = (DataSptsX[nDataTrks][nDataSpts] - DataSptsX[nDataTrks][nDataSpts - 1]);
-		     float dY = (DataSptsY[nDataTrks][nDataSpts] - DataSptsY[nDataTrks][nDataSpts - 1]);
-		     float dZ = (DataSptsZ[nDataTrks][nDataSpts] - DataSptsZ[nDataTrks][nDataSpts - 1]);
+		     float dX = (DataSptsX[nTPCtrk][nDataSpts] - DataSptsX[nTPCtrk][nDataSpts - 1]);
+		     float dY = (DataSptsY[nTPCtrk][nDataSpts] - DataSptsY[nTPCtrk][nDataSpts - 1]);
+		     float dZ = (DataSptsZ[nTPCtrk][nDataSpts] - DataSptsZ[nTPCtrk][nDataSpts - 1]);
 		  
 		     float ds = sqrt( (dX*dX) + (dY*dY) + (dZ*dZ) );
 		  
-		     DatadEdX[nDataTrks][nDataSpts] = dE/ds;
-		     DataSptPitch[nDataTrks][nDataSpts] = ds;
+		     DatadEdX[nTPCtrk][nDataSpts] = dE/ds;
+		     DataSptPitch[nTPCtrk][nDataSpts] = ds;
 		  
 		     }//<---end calculate 3-d pitch
 	       
@@ -943,29 +943,29 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
          {
 	 // ###                 Note: Format for this variable is:             ###
 	 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
-         DatadEdX[nDataTrks][nDataSpts]     = trkdedx[nTPCtrk][plane][nspts];
-	 DatadQdX[nDataTrks][nDataSpts]     = trkdqdx[nTPCtrk][plane][nspts];
+         DatadEdX[nTPCtrk][nDataSpts]     = trkdedx[nTPCtrk][plane][nspts];
+	 DatadQdX[nTPCtrk][nDataSpts]     = trkdqdx[nTPCtrk][plane][nspts];
 	 
 	 // ### Putting in a fix in the case that the dE/dX is negative in this step ### 
 	 // ###  then take the point before and the point after and average them
-	 if(DatadEdX[nDataTrks][nDataSpts] < 0 && nspts < ntrkhits[nTPCtrk] && nspts > 0)
-	    {DatadEdX[nDataTrks][nDataSpts] = ( (trkdedx[nTPCtrk][plane][nspts - 1] + trkdedx[nTPCtrk][plane][nspts + 1]) / 2);}
+	 if(DatadEdX[nTPCtrk][nDataSpts] < 0 && nspts < ntrkhits[nTPCtrk] && nspts > 0)
+	    {DatadEdX[nTPCtrk][nDataSpts] = ( (trkdedx[nTPCtrk][plane][nspts - 1] + trkdedx[nTPCtrk][plane][nspts + 1]) / 2);}
 	 
 	 // ### If this didn't fix it, then just put in a flat 2.4 MeV / cm fix ###
-	 if(DatadEdX[nDataTrks][nDataSpts] < 0)
+	 if(DatadEdX[nTPCtrk][nDataSpts] < 0)
 	    {continue;}
 	    
-	 DataResRange[nDataTrks][nDataSpts] = trkrr[nTPCtrk][plane][nspts];
+	 DataResRange[nTPCtrk][nDataSpts] = trkrr[nTPCtrk][plane][nspts];
 	 
 	 // ### Put in a flag to look for through going tracks ###
 	 if(trkrr[nTPCtrk][plane][nspts] > 88){AtLeastOneThroughGoingTrack = true;}
 	 
 	 
-         DataSptPitch[nDataTrks][nDataSpts] = trkpitchhit[nTPCtrk][plane][nspts];
+         DataSptPitch[nTPCtrk][nDataSpts] = trkpitchhit[nTPCtrk][plane][nspts];
 	 
-	 DataSptsX[nDataTrks][nDataSpts] = trkxyz[nTPCtrk][plane][nspts][0];
-	 DataSptsY[nDataTrks][nDataSpts] = trkxyz[nTPCtrk][plane][nspts][1];
-	 DataSptsZ[nDataTrks][nDataSpts] = trkxyz[nTPCtrk][plane][nspts][2];
+	 DataSptsX[nTPCtrk][nDataSpts] = trkxyz[nTPCtrk][plane][nspts][0];
+	 DataSptsY[nTPCtrk][nDataSpts] = trkxyz[nTPCtrk][plane][nspts][1];
+	 DataSptsZ[nTPCtrk][nDataSpts] = trkxyz[nTPCtrk][plane][nspts][2];
 
 	 
 	 // ### Bump the nDataSpts counter ###
@@ -974,7 +974,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 
 	 }//<---End spacepoints loop
       	 
-      nSpacePoints[nDataTrks] = nDataSpts;	 
+      nSpacePoints[nTPCtrk] = nDataSpts;	 
       nDataSpts = 0;	 
       nDataTrks++;
       AtLeastOneThroughGoingTrack = true;
@@ -993,8 +993,10 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    if(FixCaloIssue_Reordering)
       {
       
-      for( int trkPoints = 0; trkPoints < nDataTrks; trkPoints++)
+      for( int trkPoints = 0; trkPoints < ntracks_reco; trkPoints++)
          {
+	 // ### Skipping all the tracks which ARE NOT well matched ###
+         if(!MatchTPC_WVTrack[trkPoints]){continue;}
          // ################################
          // ### Loop over the caloPoints ###
          // ################################
@@ -1023,9 +1025,11 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    // ### The things need to be reorderd for this track ###
    // #####################################################
    
-   for(int trkpt = 0; trkpt < nDataTrks; trkpt++)
+   for(int trkpt = 0; trkpt < ntracks_reco; trkpt++)
       {
-   
+      // ### Skipping all the tracks which ARE NOT well matched ###
+      if(!MatchTPC_WVTrack[trkpt]){continue;}
+      
       if(HasToBeReordered[trkpt] && ( (nSpacePoints[trkpt] -  ReorderTrkCount[trkpt]) == 1))
          {
       
@@ -1045,7 +1049,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	    // ##########################################
 	    // ### Skip the point if it is at the end ###
 	    // ##########################################
-	    if(DataResRange[aa] == 0){continue;}
+	    if(DataResRange[trkpt][aa] == 0){continue;}
 	 
 	    // ### Reorder the points ###
 	    tempRR[trkpt][bb]       = DataResRange[trkpt][aa];
@@ -1076,15 +1080,15 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 
 	    }//<---End reorder loop
       
-         }//<<----End trkpt loop
-      }//<---End Has to be reordered
+         }//<---End Has to be reordered
+      }//<<----End trkpt loop
 
    // ##################################
    // ### Printing things as a check ###
    // ##################################
    if(HasToBeReordered[0] && VERBOSE)
       {
-      for(int trackPoint = 0; trackPoint < nDataTrks; trackPoint++)
+      for(int trackPoint = 0; trackPoint < ntracks_reco; trackPoint++)
          {
 	 if(!MatchTPC_WVTrack[trackPoint]){continue;}
 	 
@@ -1108,8 +1112,10 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       // ############################
       // ### Loop over the tracks ###
       // ############################
-      for( int trkPoints = 0; trkPoints < nDataTrks; trkPoints++)
+      for( int trkPoints = 0; trkPoints < ntracks_reco; trkPoints++)
          {
+	 if(!MatchTPC_WVTrack[trkPoints]){continue;}
+	 
          // ################################
          // ### Loop over the caloPoints ###
          // ################################
@@ -1156,7 +1162,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    // ####################################
    // ### Loop over all the TPC Tracks ###
    // ####################################
-   for(int nTPCtrk = 0; nTPCtrk < nDataTrks; nTPCtrk++)
+   for(int nTPCtrk = 0; nTPCtrk < ntracks_reco; nTPCtrk++)
       {
       
       // ### Skipping all the tracks which ARE NOT well matched ###
@@ -1350,7 +1356,7 @@ hdataAlpha->Write();
 hdataNMatchTPCWCTrk->Write();
 hdataWCTRKMomentum->Write();
 hdataRawWCTRKMomentum->Write();
-hdataInitialKEMomentum->Write();
+hdataInitialKineticEnergy->Write();
 hdataTrkInitialX->Write();
 hdataTrkInitialY->Write();
 

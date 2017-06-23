@@ -5,6 +5,7 @@
 #include <TCanvas.h>
 #include <iostream>
 #include <TVector3.h>
+#include <TStopwatch.h>
 
 // ===================================================================================================================
 // ====================================       PUT HISTOGRAMS HERE           ==========================================
@@ -155,8 +156,6 @@ TH1D *hMCRecodQdXQ4 = new TH1D("hMCRecodQdXQ4", "Matched Track dQ/dX Q4", 2000, 
 // --------------------------------------------------------------------------------------------------------------------------
 
 
-/////////////////////////////////// "Matched Track" dE/dX (Fixed) /////////////////////////////////////////////////////
-TH1D *hRecoMCdEdXFixed = new TH1D("hRecoMCdEdXFixed", "Matched Track dE/dX", 200, 0, 50);
 
 /////////////////////////////////// "Matched Track" Residual Range //////////////////////////////////////////
 TH1D *hRecoMCPionRR = new TH1D("hRecoMCPionRR", "Matched Track Residual Range", 400, -100, 100);
@@ -166,18 +165,6 @@ TH1D *hRecoMCPionTrkPitch = new TH1D("hRecoMCPionTrkPitch", "Matched Track Pitch
 
 ///////////////////////////////// "Matched Track" dE/dX vs RR ///////////////////////////////////////////////
 TH2D *hRecoMCdEdXvsRR = new TH2D("hRecoMCdEdXvsRR", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
-
-///////////////////////////////// "Matched Track" dE/dX vs RR (Fixed) ///////////////////////////////////////////////
-TH2D *hRecoMCdEdXvsRRFix = new TH2D("hRecoMCdEdXvsRRFix", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
-
-///////////////////////////////// "Matched Track" dE/dX vs RR (Fixed) ///////////////////////////////////////////////
-TH2D *hRecoMCdEdXvsRRFixedDecCap = new TH2D("hRecoMCdEdXvsRRFixedDecCap", "dE/dX vs Residual Range for Capture/Decay",200, 0, 100, 200, 0, 50);
-
-//////////////////////////////// "Low Momentum Track" PIDA (no cuts) ///////////////////////////////////////
-TH1D *hRecoMCLowMomentumTrkPIDA = new TH1D("hRecoMCLowMomentumTrkPIDA", "Low Momentum PIDA", 30, 0, 30);
-
-//////////////////////////////// "Low Momentum Track" PIDA (for stopping) ///////////////////////////////////////
-TH1D *hRecoMCLowMomentumTrkPIDACapDec = new TH1D("hRecoMCLowMomentumTrkPIDACapDec", "Low Momentum PIDA", 30, 0, 30);
 
 
 /////////////////////////////////// Reconstructed Length //////////////////////////////////////////
@@ -196,10 +183,6 @@ TH1D *hRecoMCTrkInitialY = new TH1D("hRecoMCTrkInitialY", "Initial Y Position of
 /////////////////////////////////// Initial Track Y Position Unweighted ////////////////////////////////////////////////////////
 TH1D *hRecoMCTrkInitialYUnweighted = new TH1D("hRecoMCTrkInitialYUnweighted", "Initial Y Position of the TPC Track", 100, -25, 25);
 
-
-
-TH2D *DeltaEvsPIDAAll = new TH2D("DeltaEvsPIDAAll", " #Delta E vs PIDA All", 30,0, 30, 100, 0, 100);
-TH2D *DeltaEvsPIDADecayCap = new TH2D("DeltaEvsPIDADecayCap", " #Delta E vs PIDA All", 30,0, 30, 100, 0, 100);
 
 
 // ###############################################################################
@@ -231,6 +214,8 @@ Long64_t nentries = fChain->GetEntriesFast();
 Long64_t nbytes = 0, nb = 0;
 
 
+//TStopwatch timer;
+
 // -------------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------------
 // 					  Putting Flexible Cuts here
@@ -242,22 +227,6 @@ Long64_t nbytes = 0, nb = 0;
 
 float particle_mass = 139.57; //<---Mass of Pion in MeV
 
-
-// ##########################################################
-// ### Preliminary TOF Cut (sets the bounds for TOF Reco) ###
-// ##########################################################
-double LowerTOFGoodReco = 0;
-double UpperTOFGoodReco = 30;
-
-// ###################################################
-// ### Setting the Wire Chamber momentum range and ###
-// ###     the TOF range for good particle ID      ###
-// ###################################################
-double LowerWCTrkMomentum = 100.0; //<--(MeV)
-double HighWCTrkMomentum  = 1500.0;//<--(MeV)
-
-double LowerTOF = 10.0; //<--(ns)
-double HighTOF  = 25.0; //<--(ns)
 
 // #####################################################
 // ### Number of centimeters in Z we require a track ###
@@ -316,16 +285,6 @@ int nShortTracksAllowed = 2;
 // ############################
 double alphaCut = 10;
 
-// ### Setting the global event weight based on ###
-// ###   open box WCTrack momentum spectrum     ###  
-float EventWeight = 1.0;
-
-// #################################################   
-// ### True  = Use the momentum based weighting  ###
-// ### False = Don't weight events               ###
-// #################################################
-bool UseEventWeight = false;
-
 
 // ######################################################
 // ### Choose whether or not to fix the calo problems ###
@@ -346,23 +305,6 @@ bool FixCaloIssue_Reordering = true;
 // ######################################################
 bool FixCaloIssue_ExtremeFluctuation = true;     
 
-// ########################################################
-// ###   Choose whether or not to fix the calo problems ###
-// ### associated with slightly large dE/dX fluctuations###
-// ###                                                  ###
-// ### True  = Use the fix                              ###
-// ### False = Don't use the fix                        ###
-// ########################################################
-bool FixCaloIssue_LessExtremeFluctuation = false;  
-
-
-// ##########################################################
-// ### Choose whether to remove identified stopping pions ###
-// ###                                                    ###
-// ### True  = Remove stoppping tagged tracks             ###
-// ### False = Don't remove stopping tagged tracks        ###
-// ##########################################################
-bool RemoveStopping = false;
 
 // ###############################################
 // ###  Only keeping through going reco Tracks ###
@@ -378,6 +320,10 @@ bool SelectThroughGoing = false;
 // ###################################################
 bool VERBOSE = false; 
 
+
+// ###                 Note: Format for this variable is:             ###
+// ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
+int plane = 1;
 
 
 // ###############################################
@@ -422,7 +368,7 @@ int nNonShowerEvents = 0, nEvtsGoodMC = 0;
 // ### Looping over all events ###
 // ###############################
 for (Long64_t jentry=0; jentry<nentries;jentry++) 
-//for (Long64_t jentry=0; jentry<20000;jentry++)
+//for (Long64_t jentry=0; jentry<1000;jentry++)
    {
    
    // #########################
@@ -464,11 +410,15 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    
    float TrueLength = 0;
    float RecoLength = 0;
+   
+   
    // ##########################################
    // ### Loop over all the GEANT4 particles ###
    // ##########################################
    for (int iG4 = 0; iG4 < geant_list_size; iG4++)
       {
+      
+      if(process_primary[iG4] != 1){continue;}
       // #####################################################
       // ### If this is a primary particle then look at it ###
       // #####################################################
@@ -500,7 +450,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 				
 	 float kineticEnergyScale = pow( (momentumScale*momentumScale) + (mass*mass) ,0.5) - mass;
 
-TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPointz[iG4])) + 
+         TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPointz[iG4])) + 
 	                    ((EndPointy[iG4]-StartPointy[iG4])*(EndPointy[iG4]-StartPointy[iG4])) + 
 	                    ((EndPointx[iG4]-StartPointx[iG4])*(EndPointx[iG4]-StartPointx[iG4])) );
 			    
@@ -528,9 +478,9 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
 	 // ##############################
 	 // ### Filling the histograms ###
 	 // ##############################
-	 hMCPrimaryPx->Fill(g4Primary_Px[nG4Primary], EventWeight);
-	 hMCPrimaryPy->Fill(g4Primary_Py[nG4Primary], EventWeight);
-	 hMCPrimaryPz->Fill(g4Primary_Pz[nG4Primary], EventWeight);
+	 hMCPrimaryPx->Fill(g4Primary_Px[nG4Primary]);
+	 hMCPrimaryPy->Fill(g4Primary_Py[nG4Primary]);
+	 hMCPrimaryPz->Fill(g4Primary_Pz[nG4Primary]);
 	 
 	 hMCPrimaryPxUnWeighted->Fill(g4Primary_Px[nG4Primary]);
 	 hMCPrimaryPyUnWeighted->Fill(g4Primary_Py[nG4Primary]);
@@ -586,17 +536,17 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
 	 {
 	 g4PrimaryProcess[nG4Primary - 1] = Process[iG4];
 	 
-	 
-	 
-	 
 	 }//<---End matching daughters
       
       }//<---end iG4 loop
    hMCPrimaryProcess->Fill(g4PrimaryProcess[nG4Primary - 1]);
-
+   
+   
    //=======================================================================================================================
    //				Only looking at events where the primary particle enters the TPC
    //=======================================================================================================================
+   
+   
    
    bool GoodMCEventInTPC = true;
    
@@ -647,17 +597,18 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
 	 hMCELossUpstream->Fill(DifferenceInEnergy);
 	 }//<---Only looking at events that actually make it into the TPC
       
-      
       }//<---End npri loop
    
    if(!GoodMCEventInTPC){continue;}
    nEvtsGoodMC++;
 
-
+   
 
    //=======================================================================================================================
    //						Low Z Spacepoint Track Cut
    //=======================================================================================================================
+   
+
    
    // ### Boolian for events w/ track which ###
    // ###     starts at the front face      ###
@@ -717,9 +668,11 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    nEvtsTrackZPos++;
    
    
+   
    //=======================================================================================================================
    //					Cutting on the number of tracks in the upstream TPC
    //=======================================================================================================================
+   
    
    int nLowZTracksInTPC = 0;
    // ################################################################
@@ -810,6 +763,7 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    //=======================================================================================================================
    //						Uniquely matching one WC Track (For MC) to TPC Track
    //=======================================================================================================================
+
    
    // ### Keeping track of the number of matched tracks ###
    int nMatchedTracks = 0;
@@ -865,12 +819,12 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    //---------------------------------------------------------------------------------------------------------------------
    
    // ### Grab the WCTrack Theta ###;
-   hRecoMCWCTheta->Fill(mcTheta* (180.0/3.141592654), EventWeight);
+   hRecoMCWCTheta->Fill(mcTheta* (180.0/3.141592654));
    
    hRecoMCWCThetaUnWeighted->Fill(mcTheta* (180.0/3.141592654));
       
    // ### Grabbing the WCTrack Phi ###
-   hRecoMChWCPhi->Fill(mcPhi* (180.0/3.141592654), EventWeight);
+   hRecoMChWCPhi->Fill(mcPhi* (180.0/3.141592654));
    
    hRecoMChWCPhiUnWeighted->Fill(mcPhi* (180.0/3.141592654));
       
@@ -939,7 +893,7 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
       // ===============================================================================================================
       // ### Calculating the Theta for the TPC Track ###
       float tpcTheta = acos(z_hat.Dot(p_hat_0)/p_hat_0.Mag());  
-      hRecoMCTPCTheta->Fill(tpcTheta* (180.0/3.141592654), EventWeight);
+      hRecoMCTPCTheta->Fill(tpcTheta* (180.0/3.141592654));
       
       hRecoMCTPCThetaUnWeighted->Fill(tpcTheta* (180.0/3.141592654));
    
@@ -969,7 +923,7 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    
       // ### Using TPC Phi ###
       float tpcPhi = phi; 
-      hRecoMCTPCPhi->Fill(tpcPhi* (180.0/3.141592654), EventWeight);
+      hRecoMCTPCPhi->Fill(tpcPhi* (180.0/3.141592654));
       
       hRecoMCTPCPhiUnWeighted->Fill(tpcPhi* (180.0/3.141592654));
       
@@ -998,10 +952,10 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
       DeltaX_WC_TPC_Track = FirstSpacePointX - (g4Primary_ProjX0[0]);
       DeltaY_WC_TPC_Track = FirstSpacePointY - (g4Primary_ProjY0[0]);
       
-      hRecoMCTrkInitialX->Fill(FirstSpacePointX, EventWeight);
+      hRecoMCTrkInitialX->Fill(FirstSpacePointX);
       hRecoMCTrkInitialXUnweighted->Fill(FirstSpacePointX);
       
-      hRecoMCTrkInitialY->Fill(FirstSpacePointY, EventWeight);
+      hRecoMCTrkInitialY->Fill(FirstSpacePointY);
       hRecoMCTrkInitialYUnweighted->Fill(FirstSpacePointY);
 	 
       // ###########################################################
@@ -1047,8 +1001,6 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    nEvtsWCTrackMatch++;
 
 
-
-
    // =========================================================================================================================================
    //						Recording information about the Wire Chamber Track
    // =========================================================================================================================================
@@ -1080,7 +1032,7 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    // ###############################################
    // ### Filling the initial kinetic energy plot ###
    // ###############################################
-   hRecoMCInitialKEMomentum->Fill(kineticEnergy, EventWeight);
+   hRecoMCInitialKEMomentum->Fill(kineticEnergy);
    hRecoMCInitialKEMomentumUnWeighted->Fill(kineticEnergy);
 
 
@@ -1088,17 +1040,21 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    // =========================================================================================================================================
    //							 Calorimetry Points
    // =========================================================================================================================================
-   
+  
    //Vectors with calo info of the matched tpc track
-   double MCRecodEdX[1000]={0.};
-   double MCRecodQdX[1000]={0.};
-   double MCRecoResRange[1000]={0.};
-   double MCRecoPitch[1000]={0.};
+   double MCRecodEdX[20][1000]={0.};
+   double MCRecodQdX[20][1000]={0.};
+   double MCRecoResRange[20][1000]={0.};
+   double MCRecoPitch[20][1000]={0.};
+   
    int nMCRecoSpts = 0;
    
-   double MCRecoSptsX[1000];
-   double MCRecoSptsY[1000];
-   double MCRecoSptsZ[1000];
+   
+   int nSpacePoints[1000] = {0};
+   
+   double MCRecoSptsX[20][1000];
+   double MCRecoSptsY[20][1000];
+   double MCRecoSptsZ[20][1000];
    
    // ################################################
    // ### Creating a flag for through going tracks ###
@@ -1143,245 +1099,162 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
 	 
 	 // ###                 Note: Format for this variable is:             ###
 	 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
-         MCRecodEdX[nMCRecoSpts]     = trkdedx[nTPCtrk][1][nspts];
-	 MCRecodQdX[nMCRecoSpts]     = trkdqdx[nTPCtrk][1][nspts];
+         MCRecodEdX[nTPCtrk][nMCRecoSpts]     = trkdedx[nTPCtrk][plane][nspts];
+	 MCRecodQdX[nTPCtrk][nMCRecoSpts]     = trkdqdx[nTPCtrk][plane][nspts];
 	 
 	 // ### Putting in a fix in the case that the dE/dX is negative in this step ### 
 	 // ###  then take the point before and the point after and average them
-	 if(MCRecodEdX[nMCRecoSpts] < 0 && nspts < ntrkhits[nTPCtrk] && nspts > 0)
-	    {MCRecodEdX[nMCRecoSpts] = ( (trkdedx[nTPCtrk][1][nspts - 1] + trkdedx[nTPCtrk][1][nspts + 1]) / 2);}
+	 if(MCRecodEdX[nTPCtrk][nMCRecoSpts] < 0 && nspts < ntrkhits[nTPCtrk] && nspts > 0)
+	    {MCRecodEdX[nTPCtrk][nMCRecoSpts] = ( (trkdedx[nTPCtrk][plane][nspts - 1] + trkdedx[nTPCtrk][plane][nspts + 1]) / 2);}
 	 
 	 // ### If this didn't fix it, then just put in a flat 2.4 MeV / cm fix ###
-	 if(MCRecodEdX[nMCRecoSpts] < 0)
+	 if(MCRecodEdX[nTPCtrk][nMCRecoSpts] < 0)
 	    {continue;}
 
 	 
-	 MCRecoResRange[nMCRecoSpts] = trkrr[nTPCtrk][1][nspts];
-         MCRecoPitch[nMCRecoSpts] = trkpitchhit[nTPCtrk][1][nspts];
+	 MCRecoResRange[nTPCtrk][nMCRecoSpts] = trkrr[nTPCtrk][plane][nspts];
+         MCRecoPitch[nTPCtrk][nMCRecoSpts] = trkpitchhit[nTPCtrk][plane][nspts];
 	 
-	 MCRecoSptsX[nMCRecoSpts] = trkxyz[nTPCtrk][1][nspts][0];
-	 MCRecoSptsY[nMCRecoSpts] = trkxyz[nTPCtrk][1][nspts][1];
-	 MCRecoSptsZ[nMCRecoSpts] = trkxyz[nTPCtrk][1][nspts][2];
-	 
-	 // ### Histogramming the dE/dX ###
-	 hRecoMCdEdX->Fill(MCRecodEdX[nMCRecoSpts]);
-	 
-	 // ### Histogramming the dQ/dX ###
-	 hRecoMCdQdX->Fill(MCRecodQdX[nMCRecoSpts]);
-	 
-	 // ### Histogramming the residual range ###
-	 hRecoMCPionRR->Fill(MCRecoResRange[nMCRecoSpts]);
-	 // ### Histogramming the Pitch ###
-	 hRecoMCPionTrkPitch->Fill(MCRecoPitch[nMCRecoSpts]);
-	 
-	 // ### Filling 2d dE/dX vs RR ###
-	 hRecoMCdEdXvsRR->Fill(MCRecoResRange[nMCRecoSpts], MCRecodEdX[nMCRecoSpts]);
-	 
-	 // =====================================================================
-	 // === Breaking the TPC into 4 quadrants to analyze the dE/dX and dQ/dX
-	 // ===               Q1: 0 cm    < z    < 22.5 cm
-	 // ===               Q2: 22.5 cm < z    < 45 cm
-	 // ===               Q3: 45 cm   < z    < 67.5 cm
-	 // ===               Q4: 67.5 cm < z    < 90 cm
-	 // =====================================================================
-	 if(MCRecoSptsZ[nMCRecoSpts] > 0    && MCRecoSptsZ[nMCRecoSpts] < 22.5)
-	    {
-	    hMCRecodEdXQ1->Fill(MCRecodEdX[nMCRecoSpts]);
-	    hMCRecodQdXQ1->Fill(MCRecodQdX[nMCRecoSpts]);
-	    }
-	 if(MCRecoSptsZ[nMCRecoSpts] > 22.5 && MCRecoSptsZ[nMCRecoSpts] < 45)
-	    {
-	    hMCRecodEdXQ2->Fill(MCRecodEdX[nMCRecoSpts]);
-	    hMCRecodQdXQ2->Fill(MCRecodQdX[nMCRecoSpts]);
-	    }
-	 if(MCRecoSptsZ[nMCRecoSpts] > 45   && MCRecoSptsZ[nMCRecoSpts] < 67.5)
-	    {
-	    hMCRecodEdXQ3->Fill(MCRecodEdX[nMCRecoSpts]);
-	    hMCRecodQdXQ3->Fill(MCRecodQdX[nMCRecoSpts]);
-	    }
-	 if(MCRecoSptsZ[nMCRecoSpts] > 67.5 && MCRecoSptsZ[nMCRecoSpts] < 90)
-	    {
-	    hMCRecodEdXQ4->Fill(MCRecodEdX[nMCRecoSpts]);
-	    hMCRecodQdXQ4->Fill(MCRecodQdX[nMCRecoSpts]);
-	    }
-	 
-	 
+	 MCRecoSptsX[nTPCtrk][nMCRecoSpts] = trkxyz[nTPCtrk][plane][nspts][0];
+	 MCRecoSptsY[nTPCtrk][nMCRecoSpts] = trkxyz[nTPCtrk][plane][nspts][1];
+	 MCRecoSptsZ[nTPCtrk][nMCRecoSpts] = trkxyz[nTPCtrk][plane][nspts][2];
 	 
 	 nMCRecoSpts++;
 	 
 	 }//<---End spacepoints loop
       
-      // #####################################################
-      // ### Check to see if this track is consistent with ###
-      // ###          being from a stopping track 	   ###
-      // #####################################################
-      if(InitialKinEnAtTPC < 300)
-         {
-	 // ### Filling the  tracks PIDA value ###
-	 hRecoMCLowMomentumTrkPIDA->Fill(trkpida[nTPCtrk][1]);
-	 
-	 // ##########################################################
-	 // ### Only fill if the MC truth is Pion Capture or Decay ###
-	 // ##########################################################
-	 if(g4PrimaryProcess[0] == 4 || g4PrimaryProcess[0] == 12 || g4PrimaryProcess[0] == 6)
-	 	{hRecoMCLowMomentumTrkPIDACapDec->Fill(trkpida[nTPCtrk][1]);}
-	 
-	 
-	 
-	 
-	//### Setting the last energy points variable ###
-	double lastDeltaEAll = 0;
-	    
-	// ### Loop over the last five points of the track ###
-	if(nMCRecoSpts >= 5)
-	   {
-           for(int nlastspts = nMCRecoSpts - 1; nlastspts > nMCRecoSpts - 5; nlastspts--)
-	      {
-	      if(MCRecodEdX[nlastspts] == -99999){continue;}
-	      
-	      //std::cout<<"nlastspts = "<<nlastspts<<std::endl;
-	      // ### Add up the energy in the last 5 points ###
-	      lastDeltaEAll += (MCRecoPitch[nlastspts] * MCRecodEdX[nlastspts]);
-	      
-	      //std::cout<<"lastDeltaEAll = "<<lastDeltaEAll<<std::endl;
-	      }//<---End nlastspts loop
-
-	 }//<---End only looking if the track has 5 points 
-	 
-	 if(g4PrimaryProcess[0] != 4 && g4PrimaryProcess[0] != 12 && g4PrimaryProcess[0] != 6)
-	    {DeltaEvsPIDAAll->Fill(trkpida[nTPCtrk][1], lastDeltaEAll);}
-	 
-	 if(g4PrimaryProcess[0] == 4 || g4PrimaryProcess[0] == 12 || g4PrimaryProcess[0] == 6)
-	    {DeltaEvsPIDADecayCap->Fill(trkpida[nTPCtrk][1], lastDeltaEAll);}
-	 
-	 
-	 // ##########################################
-	 // ###  If the PIDA is between 9 and 13   ###
-	 // ##########################################
-	 if(trkpida[nTPCtrk][1] >= 8 && trkpida[nTPCtrk][1] <= 13)
-	    {
-	    
-	    //### Setting the last energy points variable ###
-	    double lastDeltaE = 0;
-	    
-	    // ### Loop over the last five points of the track ###
-	    if(nMCRecoSpts >= 5)
-	       {
-	       for(int nlastspts = nMCRecoSpts - 1; nlastspts > nMCRecoSpts - 5; nlastspts--)
-	          {
-		  
-		  
-		  // ### Add up the energy in the last 5 points ###
-		  lastDeltaE += (MCRecoPitch[nlastspts] * MCRecodEdX[nlastspts]);
-
-	          }//<---End nlastspts loop
-
-	       }//<---End only looking if the track has 5 points
-	    
-	    // ### IF the Delta E is between 7 and 25, tag as a stopping track ###
-	    if(lastDeltaE >= 10 && lastDeltaE <= 30)
-	       // ### Only setting the flag if we are tagging events ###
-	       {
-	       if(RemoveStopping)
-	          {StoppingParticle[nTPCtrk] = true;}
-	       
-	       }
-	    
-	    
-	    }//<---End looking at 9 < PIDA < 13
-	 }//<---End looking at low momentum tracks
+      
+      nSpacePoints[nTPCtrk] = nMCRecoSpts;
+      nMCRecoSpts = 0;
       
       
       }//<---End nTPCtrk loop 
+
+
    
 // ---------------------------------------------------------------------------------------------------------------------------------------
-   bool HasToBeReordered = false;
+//							REORDER THE POINTS IF THEY NEED IT
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+   bool HasToBeReordered[20] = {false};
    int ReorderedCount = 0;
+   int ReorderTrkCount[20] = {0};
    int bb = 0;
    // ############################################################
    // ### Fix the reordering problem of the calorimetry points ###
    // ############################################################
    if(FixCaloIssue_Reordering)
       {
-      // ################################
-      // ### Loop over the caloPoints ###
-      // ################################
-      for(int caloPoints = 0; caloPoints < nMCRecoSpts-1; caloPoints++)
+      
+      // ########################
+      // ### Loop over tracks ###
+      // ########################
+      
+      for( int trkPoints = 0; trkPoints < ntracks_reco; trkPoints++)
          {
-	 // ###           If this points Residual Range is smaller than the       ###
-	 // ### next point, then things may be out of wack and we want to reorder ###
-	 if(MCRecoResRange[caloPoints] < MCRecoResRange[caloPoints+1])
-	    {
-	    // #######################################################
-	    // ### Set a flag that this might have to be reordered ###
-	    // #######################################################
-	    HasToBeReordered = true;
-	    
-	    // ### counting the points that are out of order ###
-	    ReorderedCount++;
-	    }
-
-         }//<---End caloPoints
+	 // ### Skipping all the tracks which aren't well matched ###
+         if(!MatchTPC_WVTrack[trkPoints]){continue;}
+	 
+         // ################################
+         // ### Loop over the caloPoints ###
+         // ################################
+         for(int caloPoints = 0; caloPoints < nSpacePoints[trkPoints] - 1; caloPoints++)
+            {
+	    // ###           If this points Residual Range is smaller than the       ###
+	    // ### next point, then things may be out of wack and we want to reorder ###
+	    if(MCRecoResRange[trkPoints][caloPoints] < MCRecoResRange[trkPoints][caloPoints+1])
+	       {
+	       // #######################################################
+	       // ### Set a flag that this might have to be reordered ###
+	       // #######################################################
+	       HasToBeReordered[trkPoints] = true;
+	       
+	       
+	       // ### counting the points that are out of order ###
+	       ReorderedCount++;
+	       }
+            
+            }//<---End caloPoints
+	 ReorderTrkCount[trkPoints] = ReorderedCount;
+	 ReorderedCount = 0; 
+	 }//<---End trkPoints
       }//<---End fixing the ordering problem
    
-   // #####################################################
-   // ### The things need to be reorderd for this track ###
-   // #####################################################
-   if(HasToBeReordered && ( (nMCRecoSpts - ReorderedCount) == 1))
+   
+   for(int trkpt = 0; trkpt < ntracks_reco; trkpt++)
       {
+      // ### Skipping all the tracks which aren't well matched ###
+      if(!MatchTPC_WVTrack[trkpt]){continue;}
       
-      // ### Temp Variables for fixing ###
-      double tempRR[1000] = {0.};
-      double tempdEdX[1000] = {0.};
-      double tempPitch[1000] = {0.};
-      
-      // ### Start at the last point ###
-      for(int aa = nMCRecoSpts; aa > -1; aa--)
+      // #####################################################
+      // ### The things need to be reorderd for this track ###
+      // #####################################################
+      if(HasToBeReordered[trkpt] && ( ( nSpacePoints[trkpt] - ReorderTrkCount[trkpt]) == 1))
          {
-	 // ##########################################
-	 // ### Skip the point if it is at the end ###
-	 // ##########################################
-	 if(MCRecoResRange[aa] == 0){continue;}
 	 
-	 // ### Reorder the points ###
-	 tempRR[bb] = MCRecoResRange[aa];
-	 tempdEdX[bb]     = MCRecodEdX[aa];
-	 tempPitch[bb] = MCRecoPitch[aa];
-	 
-	 bb++;
-	 }//<---end aa 
+	 if(VERBOSE){std::cout<<"run = "<<run<<", event = "<<event<<", is reordered"<<std::endl;}
+	 if(VERBOSE){std::cout<<"nSpacePoints[trkPoints] = "<<nSpacePoints[trkpt]<<std::endl;}
+	 // ### Temp Variables for fixing ###
+         double tempRR[20][1000] = {0.};
+         double tempdEdX[20][1000] = {0.};
+         double tempdQdX[20][1000] = {0.};
+         double tempPitch[20][1000] = {0.};
       
-      // ###########################
-      // ### Now swap the points ###
-      // ###########################
-      for(int reorder = 0; reorder < nMCRecoSpts; reorder++)
-         {
-	 MCRecoResRange[reorder] = tempRR[reorder];
-	 MCRecodEdX[reorder]     = tempdEdX[reorder];
-	 MCRecoPitch[reorder] = tempPitch[reorder];
-	 
-	 
-	 }//<---End reorder loop
+         double tempx[20][1000] = {0.};
+         double tempy[20][1000] = {0.};
+         double tempz[20][1000] = {0.};
       
+         // ### Start at the last point ###
+         for(int aa = nSpacePoints[trkpt]; aa > -1; aa--)
+            {
+	    // ##########################################
+	    // ### Skip the point if it is at the end ###
+	    // ##########################################
+	    if(MCRecoResRange[trkpt][aa] == 0){continue;}
+	 
+	    // ### Reorder the points ###
+	    tempRR[trkpt][bb]    = MCRecoResRange[trkpt][aa];
+	    tempdEdX[trkpt][bb]  = MCRecodEdX[trkpt][aa];
+	    tempPitch[trkpt][bb] = MCRecoPitch[trkpt][aa];
+	    tempdQdX[trkpt][bb]  = MCRecodQdX[trkpt][aa];
+	    
+	    tempx[trkpt][bb] = MCRecoSptsX[trkpt][aa];
+	    tempy[trkpt][bb] = MCRecoSptsY[trkpt][aa];
+	    tempz[trkpt][bb] = MCRecoSptsZ[trkpt][aa];
+	    
+	    
+	    bb++;
+	    }//<---end aa 
       
-      }//<---End Has to be reordered
+         // ###########################
+         // ### Now swap the points ###
+         // ###########################
+         for(int reorder = 0; reorder < nSpacePoints[trkpt]; reorder++)
+            {
+	    MCRecoResRange[trkpt][reorder] = tempRR[trkpt][reorder];
+	    MCRecodEdX[trkpt][reorder]     = tempdEdX[trkpt][reorder];
+	    MCRecoPitch[trkpt][reorder]    = tempPitch[trkpt][reorder];
+	    MCRecodQdX[trkpt][reorder]     = tempdQdX[trkpt][reorder];
+	    
+	    MCRecoSptsX[trkpt][reorder] = tempx[trkpt][reorder];
+	    MCRecoSptsY[trkpt][reorder] = tempy[trkpt][reorder];
+	    MCRecoSptsZ[trkpt][reorder] = tempz[trkpt][reorder];
+	    
+	    }//<---End reorder loop
+            
+      
+         }//<---End Has to be reordered
+      }//<---end trkpt loop
 
-   // ##################################
-   // ### Printing things as a check ###
-   // ##################################
-   if(HasToBeReordered && VERBOSE)
-      {
-      for(int caloPoints = 0; caloPoints < nMCRecoSpts; caloPoints++)
-         {
-	 std::cout<<"Run = "<<run<<", Event = "<<event<<" point = "<<caloPoints<<", RR = "<<MCRecoResRange[caloPoints]<<", dE/dX = "<<MCRecodEdX[caloPoints]<<std::endl;
-      
-      
-         }//<---End caloPoints
-      std::cout<<std::endl;	 
-      }//<---Putting in a print to make sure things are reordered correctly   
+
+
    
 // ---------------------------------------------------------------------------------------------------------------------------------------
-   
+//						FIX LARGE FLUCTUATIONS ALONG THE TRACK
+// ---------------------------------------------------------------------------------------------------------------------------------------   
+
    
    
    // ####################################################################
@@ -1390,104 +1263,117 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
    // ####################################################################
    if(FixCaloIssue_ExtremeFluctuation)
       {
-      // ################################
-      // ### Loop over the caloPoints ###
-      // ################################
-      for(int caloPoints = 0; caloPoints < nMCRecoSpts; caloPoints++)
+      // ############################
+      // ### Loop over the tracks ###
+      // ############################
+      for( int trkPoints = 0; trkPoints < ntracks_reco; trkPoints++)
          {
+	 // ### Skipping all the tracks which aren't well matched ###
+         if(!MatchTPC_WVTrack[trkPoints]){continue;}
 	 
-	 // ###################################################
-	 // ### If the dE/dX is large and at the end of the ###
-	 // ###  track as expected with a proton attached   ###
-	 // ###################################################
-	 if(MCRecodEdX[caloPoints] > 40. && caloPoints == (nMCRecoSpts-1) )
-	    {
-	    // ##########################################################
-	    // ### Set this point equal to the previous point's dE/dX ###
-	    // ##########################################################
-	    MCRecodEdX[caloPoints] = MCRecodEdX[caloPoints - 1];
-	    }//<---End large and at the end of the track
+         // ################################
+         // ### Loop over the caloPoints ###
+         // ################################
+         for(int caloPoints = 0; caloPoints < nSpacePoints[trkPoints]; caloPoints++)
+            {
 	 
-	 // ############################################################
-	 // ### Else, if it is a large dE/dX but not the first point ###
-	 // ############################################################
-	 else if(MCRecodEdX[caloPoints] > 40. && caloPoints < (nMCRecoSpts-1) && caloPoints > 0.)
-	    {
+	    // ###################################################
+	    // ### If the dE/dX is large and at the end of the ###
+	    // ###  track as expected with a proton attached   ###
+	    // ###################################################
+	    if(MCRecodEdX[trkPoints][caloPoints] > 40. && caloPoints == nSpacePoints[trkPoints] )
+	       {
+	       // ##########################################################
+	       // ### Set this point equal to the previous point's dE/dX ###
+	       // ##########################################################
+	       MCRecodEdX[trkPoints][caloPoints] = MCRecodEdX[trkPoints][caloPoints - 1];
+	       }//<---End large and at the end of the track
+	 
+	    // ############################################################
+	    // ### Else, if it is a large dE/dX but not the first point ###
+	    // ############################################################
+	    else if(MCRecodEdX[trkPoints][caloPoints] > 40. && caloPoints < (nSpacePoints[trkPoints] - 1 ) && nSpacePoints[trkPoints] > 0.)
+	       {
 	    
-	    if(VERBOSE){std::cout<<"Large Fluctuation"<<std::endl;}
-	    // #################################################################
-	    // ### Then just average between the previous and the next point ###
-	    // #################################################################
-	    MCRecodEdX[caloPoints] = ( (MCRecodEdX[caloPoints - 1] + MCRecodEdX[caloPoints + 1]) / 2.);
+	       if(VERBOSE){std::cout<<"Large Fluctuation"<<std::endl;}
+	       // #################################################################
+	       // ### Then just average between the previous and the next point ###
+	       // #################################################################
+	       MCRecodEdX[trkPoints][caloPoints] = ( (MCRecodEdX[trkPoints][caloPoints - 1] + MCRecodEdX[trkPoints][caloPoints + 1]) / 2.);
 	    
-	    }//<--End large and not at the end of the track
+	       }//<--End large and not at the end of the track
       
-         }//<---End caloPoints loop
-      
+            }//<---End caloPoints loop
+         }//<---End trkPoints
       }//<---Only fixing calorimetry for big fluctuations
 
-// ---------------------------------------------------------------------------------------------------------------------------------------
-   
-   // ##############################################################################
-   // ### Fix the calorimetry issues associated with slightly large fluctuations ###
-   // ###                 by extrapolating through the points                    ###
-   // ##############################################################################
-   if(FixCaloIssue_LessExtremeFluctuation)
-      {
-      for(int caloPoints = 0; caloPoints < nMCRecoSpts; caloPoints++)
-         {
-	 // ### If dE/dX > 15 and more than 10cm from the end of the track and isn't the first or last point ###
-	 if(MCRecodEdX[caloPoints] > 15. && MCRecoResRange[caloPoints] > 10. && caloPoints > 0.&& caloPoints < (nMCRecoSpts-1) )
-	    {
-	    if(VERBOSE){std::cout<<"Small Fluctuation"<<std::endl;}
-	    // ### Check to see if the previous point is greater than 15 ###
-	    if(MCRecodEdX[caloPoints-1] > 15.)
-	       {
-	       // ### Check to see if the next point is greater than 15 ###
-	       if(MCRecodEdX[caloPoints+1] > 15. )
-	          {
-		  // ### Go 2 points before and after ###
-		  MCRecodEdX[caloPoints] = ( (MCRecodEdX[caloPoints - 2] + MCRecodEdX[caloPoints + 2]) / 2.);
-		  }
-	       else
-	          {
-		  // ### Go 2 points before and one point after ###
-		  MCRecodEdX[caloPoints] = ( (MCRecodEdX[caloPoints - 2] + MCRecodEdX[caloPoints + 1]) / 2.);
-		  }
-	        }
-	    else if(MCRecodEdX[caloPoints-1] <= 15.)
-	       {
-	       if(MCRecodEdX[caloPoints+1] > 15. )
-	          {
-		  MCRecodEdX[caloPoints] = ( (MCRecodEdX[caloPoints - 1] + MCRecodEdX[caloPoints+2]) / 2.);
-		  }
-	       else
-	          {
-		  MCRecodEdX[caloPoints] = ( (MCRecodEdX[caloPoints - 2] + MCRecodEdX[caloPoints + 1]) / 2.);
-		  }
-	       }
-	   else MCRecodEdX[caloPoints] = ( (MCRecodEdX[caloPoints - 1] + MCRecodEdX[caloPoints+1]) / 2.);
-	   }
-	
-      
-         }//<---End caloPoints loop
-      
-      }//<---Only fixing calorimetry for less big fluctuations   
-   
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------
+//						FILL HISTOGRAMS
+// -------------------------------------------------------------------------------------------------------------------------------
+ 
+   //timer.Start(); 
+
    // ##########################################
    // ### Filling the fixed dE/dX vs RR plot ###
+   // ### Loop over the tracks in the event  ###
    // ##########################################
-   for(int caloPoints = 0; caloPoints < nMCRecoSpts; caloPoints++)
+   for(int nTPCtrk = 0; nTPCtrk < ntracks_reco; nTPCtrk++)
       {
+      // ### Skipping all the tracks which aren't well matched ###
+      if(!MatchTPC_WVTrack[nTPCtrk]){continue;}
       
-      hRecoMCdEdXvsRRFix->Fill(MCRecoResRange[caloPoints], MCRecodEdX[caloPoints]);
-      
-      hRecoMCdEdXFixed->Fill(MCRecodEdX[caloPoints]);
-      
-      if(g4PrimaryProcess[0] == 4 || g4PrimaryProcess[0] == 12 && InitialKinEnAtTPC < 300 )
-         { hRecoMCdEdXvsRRFixedDecCap->Fill(MCRecoResRange[caloPoints], MCRecodEdX[caloPoints]);}
-      
-      }//<---End Fix
+      // ############################################
+      // ### Loop over all the calorimetry points ###
+      // ############################################
+      for(int npoints = 0; npoints < nSpacePoints[nTPCtrk]; npoints++)
+         {
+         hRecoMCdEdX->Fill(MCRecodEdX[nTPCtrk][npoints]);
+         hRecoMCdQdX->Fill(MCRecodQdX[nTPCtrk][npoints]);
+
+         hRecoMCPionRR->Fill(MCRecoResRange[nTPCtrk][npoints]);
+         hRecoMCPionTrkPitch->Fill(MCRecoPitch[nTPCtrk][npoints]);
+         hRecoMCdEdXvsRR->Fill(MCRecoResRange[nTPCtrk][npoints], MCRecodEdX[nTPCtrk][npoints]);
+	 
+	 
+	 // =====================================================================
+	 // === Breaking the TPC into 4 quadrants to analyze the dE/dX and dQ/dX
+	 // ===               Q1: 0 cm    < z    < 22.5 cm
+	 // ===               Q2: 22.5 cm < z    < 45 cm
+	 // ===               Q3: 45 cm   < z    < 67.5 cm
+	 // ===               Q4: 67.5 cm < z    < 90 cm
+	 // =====================================================================
+	 if(MCRecoSptsZ[nTPCtrk][npoints] > 0    && MCRecoSptsZ[nTPCtrk][npoints] < 22.5)
+	    {
+	    hMCRecodEdXQ1->Fill(MCRecodEdX[nTPCtrk][npoints]);
+	    hMCRecodQdXQ1->Fill(MCRecodQdX[nTPCtrk][npoints]);
+	    }
+	 if(MCRecoSptsZ[nTPCtrk][npoints] > 22.5 && MCRecoSptsZ[nTPCtrk][npoints] < 45)
+	    {
+	    hMCRecodEdXQ2->Fill(MCRecodEdX[nTPCtrk][npoints]);
+	    hMCRecodQdXQ2->Fill(MCRecodQdX[nTPCtrk][npoints]);
+	    }
+	 if(MCRecoSptsZ[nTPCtrk][npoints] > 45   && MCRecoSptsZ[nTPCtrk][npoints] < 67.5)
+	    {
+	    hMCRecodEdXQ3->Fill(MCRecodEdX[nTPCtrk][npoints]);
+	    hMCRecodQdXQ3->Fill(MCRecodQdX[nTPCtrk][npoints]);
+	    }
+	 if(MCRecoSptsZ[nTPCtrk][npoints] > 67.5 && MCRecoSptsZ[nTPCtrk][npoints] < 90)
+	    {
+	    hMCRecodEdXQ4->Fill(MCRecodEdX[nTPCtrk][npoints]);
+	    hMCRecodQdXQ4->Fill(MCRecodQdX[nTPCtrk][npoints]);
+	    }
+	 
+	 
+	 }//<---end npoints
+	 
+      }//<---end nTPCtrk
+
+   //timer.Stop();
+   //std::cout<<"Run = "<<run<<", event = "<<event<<std::endl;
+   //std::cout<<"Time for the loop = "<<timer.RealTime()<<std::endl;
    
    
    // =========================================================================================================================================
@@ -1505,20 +1391,20 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
       // ############################################
       // ### Loop over all the calorimetry points ###
       // ############################################
-      for(int npoints = 0; npoints < nMCRecoSpts; npoints++)
+      for(int npoints = 0; npoints < nSpacePoints[nTPCtrk]; npoints++)
          {
 	 // ### Filling the incidient histogram weighted by beam profile ###
-         hRecoMCIncidentKE->Fill(kineticEnergy, EventWeight);
+         hRecoMCIncidentKE->Fill(kineticEnergy);
 	 
 	 hRecoMCIncidentKEunweighted->Fill(kineticEnergy);
       
          // ###            Filling the interaction histogram for the last spt          ###
 	 // ### As long as it isn't a through going track and isn't tagged as stopping ###
-         if(npoints == nMCRecoSpts -1 && !ThroughGoingTrack[nTPCtrk] && !StoppingParticle[nTPCtrk] )
+         if(npoints == nSpacePoints[nTPCtrk] -1 && !ThroughGoingTrack[nTPCtrk] && !StoppingParticle[nTPCtrk] )
             {
 	    
 	    // ### Weighting the Interaction by the beam profile ###
-	    hRecoMCInteractingKE->Fill(kineticEnergy, EventWeight);
+	    hRecoMCInteractingKE->Fill(kineticEnergy);
 	    
 	    // ### Saving the unweighted interaction ###
 	    hRecoMCInteractingKEunweighted->Fill(kineticEnergy);
@@ -1527,7 +1413,7 @@ TrueLength = sqrt( ((EndPointz[iG4]-StartPointz[iG4])*(EndPointz[iG4]-StartPoint
 	 // ################################################
 	 // ### Subtracting the energy loss in this step ###
 	 // ################################################
-         float energyLossInStep = MCRecodEdX[npoints] * MCRecoPitch[npoints];
+         float energyLossInStep = MCRecodEdX[nTPCtrk][npoints] * MCRecoPitch[nTPCtrk][npoints];
          
 	 // #######################################################
 	 // ### Removing that kinetic energy from the histogram ###
@@ -1603,9 +1489,6 @@ for( int iBin = 1; iBin <= hRecoMCInteractingKE->GetNbinsX(); ++iBin )
 std::cout<<std::endl;
 std::cout<<"########################################################################"<<std::endl;
 std::cout<<"### Number of Events in AnaModule                                = "<<nTotalEvents<<" ###"<<std::endl;
-std::cout<<"-------------------------------   Stage 0   ----------------------------"<<std::endl;
-std::cout<<"### Number of Events w/ WC Track                                 = "<<nEvtsWCTrack<<" ###"<<std::endl;
-std::cout<<"### Number of Events w/ TOF > "<<LowerTOFGoodReco<<" ns and < "<<UpperTOFGoodReco<<" ns                   = "<<nEvtsTOF<<" ###"<<std::endl;
 std::cout<<"### Number of Events w/ Good TPC info (nHits > 0)		     = "<<nEvntsTPC<<" ###"<<std::endl;
 std::cout<<"-------------------------------   Stage 1   ----------------------------"<<std::endl;
 std::cout<<"### Number of Events w/ PID consistent with Pi/Mu                = "<<nEvtsPID<<" ###"<<std::endl;
@@ -1669,7 +1552,6 @@ hRecoMCdQdX->Write();
 hRecoMCPionRR->Write();
 hRecoMCPionTrkPitch->Write();
 hRecoMCdEdXvsRR->Write();
-hRecoMCLowMomentumTrkPIDA->Write();
 hRecoMCIncidentKE->Write();
 hRecoMCIncidentKEunweighted->Write();
 hRecoMCInteractingKE->Write();
@@ -1680,13 +1562,8 @@ hRecoMCTrkInitialX->Write();
 hRecoMCTrkInitialXUnweighted->Write();
 hRecoMCTrkInitialY->Write();
 hRecoMCTrkInitialYUnweighted->Write();
-hRecoMCdEdXvsRRFix->Write();
-hRecoMCdEdXFixed->Write();
-hRecoMCLowMomentumTrkPIDACapDec->Write();
-hRecoMCdEdXvsRRFixedDecCap->Write();
 
-DeltaEvsPIDAAll->Write();
-DeltaEvsPIDADecayCap->Write();
+
 
 
 hMCRecodEdXQ1->Write();

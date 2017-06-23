@@ -14,8 +14,8 @@ float slab_width = 0.0045;//in m (from mean of track pitch)
 // ############################
 // ###   Load Data Plots    ###
 // ############################
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/CombinedNegPolData_histos_noCorrections_PionXSectionSample.root");
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/Combined_RunI_RunII_Picky_PiMuE_dataHisto.root");
+TFile *f1 = new TFile("../histoROOTfiles_forPlots/Combined_RunI_RunII_HY_PiMuE_dataHisto.root");
+//TFile *f1 = new TFile("../histoROOTfiles_forPlots/Combined_RunI_RunII_Picky_PiMuE_dataHisto.root");
 
 
 // ####################################
@@ -474,6 +474,7 @@ gStyle->SetOptStat(0);
  hVariableBinCrossSectionMC->Draw("e2same");
  hVariableBinCrossSection->Draw("e1same");
  
+ //hVariableBinCrossSection->Draw("e1");
 // ############################
 // # Setting the Latex Header #
 // ############################
