@@ -87,7 +87,7 @@ for (int i = startBin; i <= nbins; i++ )
 // ############################
 // ### Load MC Plots        ###
 // ############################
-TFile *f2 = new TFile("../histoROOTfiles_forPlots/PionMCDD_RunI_OutOfTheBox.root");
+TFile *f2 = new TFile("../histoROOTfiles_forPlots/PionMCDD_RunII_HY_OutOfTheBox.root");
  
  
 // ############################## 
@@ -108,7 +108,7 @@ MCCrossSys->SetName("MCCrossSys");
  float MCp;
  
  //Systematic errors taken from Jonathan's slide
- float dEdxuncert = 0.05;
+ float dEdxuncert = 0.02;
  float dEdxuncertsq = dEdxuncert*dEdxuncert;
  float mucontam = 0.03;
  float mucontamsq = mucontam*mucontam;
@@ -194,6 +194,8 @@ MCCrossSys->SetName("MCCrossSys");
  DataCrossSection->GetXaxis()->SetTitle("");
  DataCrossSection->GetYaxis()->SetTitle("");
 
+
+// ============================================================================================================
  //Drawing option 1
 // ########################
 // ### Making a TCanvas ###
@@ -204,8 +206,8 @@ c01->SetFillColor(kWhite);
 c01->cd();
 gStyle->SetOptStat(0);
 
-MCCrossSys->SetAxisRange(-100,1200.);
-MCCrossSys->SetMaximum(3.5);
+MCCrossSys->SetAxisRange(50,1800.);
+MCCrossSys->SetMaximum(3.0);
 MCCrossSys->SetMinimum(0);
 MCCrossSys->Draw("e2");
 MCCrossSection->Draw("e2same");
@@ -219,7 +221,7 @@ leg->SetTextSize(0.04);
 leg->SetTextFont(42);
 leg->AddEntry(MCCrossSys,"MC syst + stat","f");
 leg->AddEntry(MCCrossSection,"MC stat only","f");
-leg->AddEntry(DataCrossSection, "Run-2 data, stat","ep");
+leg->AddEntry(DataCrossSection, "Run-I/II data, stat","ep");
 leg->Draw();
 
 // ############################
@@ -233,8 +235,11 @@ prelim->SetTextAlign(40);
 prelim->DrawLatex(0.1,0.90,"LArIAT Preliminary");
 prelim->DrawLatex(0.13,0.84,"");
 
-c01->Print("./images/RunIINegPol_xsec_MCband_opt1.png");
+c01->Print("./images/CombinedNegPol_xsec_MCband_opt1FineBin.png");
 
+
+
+// ==============================================================================================================
  //Drawing option 2
 // ########################
 // ### Making a TCanvas ###
@@ -254,7 +259,7 @@ c02->cd();
  leg2->SetTextFont(42);
  leg2->AddEntry(MCCrossSys,"MC syst + stat","f");
  leg2->AddEntry(MCCrossSection,"MC central value","l");
- leg2->AddEntry(DataCrossSection, "Run-2 data, stat","ep");
+ leg2->AddEntry(DataCrossSection, "Run-I/II data, stat","ep");
  leg2->Draw();
 
 
@@ -264,8 +269,11 @@ c02->cd();
  leg2->Draw();
  prelim->Draw();
 
- c02->Print("./images/RunIINegPol_xsec_MCband_opt2.png");
+ c02->Print("./images/CombinedNegPol_xsec_MCband_opt2FineBin.png");
 
+
+
+// ===========================================================================================================
  //MC no error band
 // ########################
 // ### Making a TCanvas ###
@@ -284,11 +292,11 @@ c03->cd();
  leg3->SetTextSize(0.04);
  leg3->SetTextFont(42);
  leg3->AddEntry(MCCrossSection,"MC central value","l");
- leg3->AddEntry(DataCrossSection, "Run-2 data, stat","ep");
+ leg3->AddEntry(DataCrossSection, "Run-I/II data, stat","ep");
  leg3->Draw();
 
- MCCrossSection->SetAxisRange(-100,2500.);
- MCCrossSection->SetMaximum(3.5);
+ MCCrossSection->SetAxisRange(50,1800.);
+ MCCrossSection->SetMaximum(3.0);
  MCCrossSection->SetMinimum(0);
 
  MCCrossSection->GetXaxis()->SetTitle("Reconstructed Kinetic Energy (MeV)");
@@ -305,6 +313,6 @@ c03->cd();
  leg3->Draw();
  prelim->Draw();
 
- c03->Print("./images/RunIINegPol_xsec_MC_noband.png");
+ c03->Print("./images/CombinedNegPol_xsec_MC_noband_fineBin.png");
 
 }

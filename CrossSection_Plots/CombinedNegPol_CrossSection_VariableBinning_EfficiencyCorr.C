@@ -35,12 +35,14 @@ TH1F* DataCrossSection = (TH1F*)f1->Get("fCrossSection");
 // ###            scale factor should be 0.90           ###
 // ########################################################
 double MuonContaminationScaleFactor = 0.90;
+
+
+double EfficiencyScale = 0.70;
     
 // ==========================================================================================================
 // 			SCALING THE INCIDENT HISTOGRAM FOR THE MUON CONTAMINATION
 // ==========================================================================================================
 hDataInc->Scale(MuonContaminationScaleFactor);
-
 
 const Int_t nBins = 20;
 Double_t edges[nBins+1] = {0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 900, 1200, 1500, 1800};
@@ -82,7 +84,7 @@ for(int i = 3; i <= hDataInc->GetNbinsX(); i++)
    // ### Putting in protection for dividing by zero ###
    if(data_denomenator == 0){TempCrossSection = 0; datasigbinom = 0;}
    
-   VariableCrossSection[counter]      = TempCrossSection;
+   VariableCrossSection[counter]      = TempCrossSection * (1/EfficiencyScale);
    VariableCrossSectionError[counter] = datasigbinom;
    counter++;
    
@@ -245,10 +247,10 @@ int counterMC = 0;
    // ### Cross-section = (Interacting Bins / Incident Bins) / (Density) / (slab width) ###
    TempCrossSection = (MCn/MCN)/(number_density)/(slab_width);
    
-   crossSection = TempCrossSection * (1e28); //To put this into barns
+   crossSection = TempCrossSection * (1e28) * (1/EfficiencyScale); //To put this into barns
    MCCrossSection->SetBinContent(i,crossSection);
    
-   VariableCrossSectionMC[counterMC] = crossSection;
+   VariableCrossSectionMC[counterMC] = crossSection ;
 
    MCsigbinom = sqrt(MCn/(MCN*MCN)*(1-MCn/MCN));
    MCsigbinom = MCsigbinom/number_density/slab_width*1e28; //MC binomial stat error in barns

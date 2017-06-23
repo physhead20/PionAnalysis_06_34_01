@@ -50,10 +50,9 @@ for(int a = 0; a < 21; a++){binXError[a] = 25.;}
 // ### Collection Plane ###
 // ########################
 
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HY_PiMuE.root");
-//TFile *f1 = new TFile("./dEdXCalib_RunINeg_Picky_PiMuE.root");
+//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HY_PiMuE.root");
 
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_RunINeg_HighYield_PiMuE.root");
+TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_Combined_HY_PiMuE.root");
 
 
 
@@ -498,6 +497,24 @@ hdatadEdX->GetYaxis()->SetTitle("Events / 0.5 MeV/cm");
 hdatadEdX->GetYaxis()->CenterTitle();
 
 hdatadEdX->Draw("E1");
+
+TLatex *t = new TLatex();
+t->SetNDC();
+t->SetTextFont(62);
+t->SetTextSize(0.04);
+t->SetTextAlign(40);
+t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
+t->DrawLatex(0.13,0.84,"");
+
+TLegend *leg = new TLegend();
+leg = new TLegend(0.48,0.65,0.88,0.88);
+leg->SetTextSize(0.04);
+leg->SetTextAlign(12);
+leg->SetFillColor(kWhite);
+leg->SetLineColor(kWhite);
+leg->SetShadowColor(kWhite);
+leg->SetHeader("LArIAT Run-I/II Negative Polarity");
+leg->Draw();
 
 
 }//<---End File
