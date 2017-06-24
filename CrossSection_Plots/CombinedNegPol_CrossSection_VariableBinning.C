@@ -481,8 +481,8 @@ gStyle->SetOptStat(0);
  hVariableBinCrossSection->GetXaxis()->SetTitle("");
  hVariableBinCrossSection->GetYaxis()->SetTitle("");
 
- hVariableBinCrossSectionMCSys->SetAxisRange(50,1800.);
- hVariableBinCrossSectionMCSys->SetMaximum(2.0);
+ hVariableBinCrossSectionMCSys->SetAxisRange(0,1800.);
+ hVariableBinCrossSectionMCSys->SetMaximum(3.5);
  hVariableBinCrossSectionMCSys->SetMinimum(0);
  
  
