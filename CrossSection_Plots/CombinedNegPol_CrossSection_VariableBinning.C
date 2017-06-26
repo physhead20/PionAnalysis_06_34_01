@@ -154,20 +154,20 @@ hVariableBinCrossSection->SetBinError(17,bin17error);
 float bin18 = (VariableCrossSection[18] + VariableCrossSection[19] + VariableCrossSection[20] + VariableCrossSection[21] + VariableCrossSection[22] + VariableCrossSection[23]) / 6;
 hVariableBinCrossSection->SetBinContent(18,bin18);
 float bin18error = (sqrt( pow(VariableCrossSectionError[18],2) + pow(VariableCrossSectionError[19],2) + pow(VariableCrossSectionError[20],2)+
-                         pow(VariableCrossSectionError[21],2) + pow(VariableCrossSectionError[22],2) + pow(VariableCrossSectionError[23],2) ) )/ 6;
+                         pow(VariableCrossSectionError[21],2) + pow(VariableCrossSectionError[22],2) + pow(VariableCrossSectionError[23],2) ) );
 hVariableBinCrossSection->SetBinError(18,bin18error);
 
 // 1200 - 1500
 float bin19 = (VariableCrossSection[24] + VariableCrossSection[25] + VariableCrossSection[26] + VariableCrossSection[27] + VariableCrossSection[28] + VariableCrossSection[29]) / 6;
 hVariableBinCrossSection->SetBinContent(19,bin19);
 float bin19error = (sqrt( pow(VariableCrossSectionError[24],2) + pow(VariableCrossSectionError[25],2) + pow(VariableCrossSectionError[26],2)+
-                          pow(VariableCrossSectionError[27],2) + pow(VariableCrossSectionError[28],2) + pow(VariableCrossSectionError[29],2)) )/ 6;
+                          pow(VariableCrossSectionError[27],2) + pow(VariableCrossSectionError[28],2) + pow(VariableCrossSectionError[29],2)) );
 hVariableBinCrossSection->SetBinError(19,bin19error);
 
 float bin20 = (VariableCrossSection[30] + VariableCrossSection[31] + VariableCrossSection[32] + VariableCrossSection[33] + VariableCrossSection[34] + VariableCrossSection[35] ) / 6;
 hVariableBinCrossSection->SetBinContent(20,bin20);
 float bin20error = (sqrt( pow(VariableCrossSectionError[30],2) + pow(VariableCrossSectionError[31],2) + pow(VariableCrossSectionError[32],2)+
-                          pow(VariableCrossSectionError[33],2) + pow(VariableCrossSectionError[34],2) + pow(VariableCrossSectionError[35],2)) )/ 6;
+                          pow(VariableCrossSectionError[33],2) + pow(VariableCrossSectionError[34],2) + pow(VariableCrossSectionError[35],2)) );
 hVariableBinCrossSection->SetBinError(20,bin20error);
 // --------------------------------------------------------------------------------------------------------------------------
 

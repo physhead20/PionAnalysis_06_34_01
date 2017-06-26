@@ -289,6 +289,13 @@ leg->AddEntry(hKaonMCIncKE,"Kaon MC");
 leg->Draw();
 
 
+// ###################################################
+// ###         Writing out the MC histogram        ###
+// ###################################################
+TFile myfile("../histoROOTfiles_forPlots/InteractingKE_MCHisto.root","RECREATE");
+
+hstacked->Write();
+hPionIncKE->Write();
 
 
 }//<---End File

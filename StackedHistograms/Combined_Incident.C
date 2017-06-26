@@ -1,5 +1,8 @@
 {
 
+
+
+
 // ######################################################################################################
 // ######################################################################################################
 // ### To obtain these numbers first set them equal to 1.0 and then use the printed output in the file
@@ -294,6 +297,13 @@ leg->AddEntry(hKaonMCIncKE,"Kaon MC");
 leg->Draw();
 
 
+// ###################################################
+// ###         Writing out the MC histogram        ###
+// ###################################################
+TFile myfile("../histoROOTfiles_forPlots/IncidentKE_MCHisto.root","RECREATE");
+
+hstacked->Write();
+hPionIncKE->Write();
 
 
 }//<---End File
