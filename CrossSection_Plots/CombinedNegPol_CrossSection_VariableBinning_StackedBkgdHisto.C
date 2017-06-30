@@ -34,7 +34,7 @@ TH1F* DataCrossSection = (TH1F*)f1->Get("fCrossSection");
 // ### Note: If you have a 10% contamination than your  ###
 // ###            scale factor should be 0.90           ###
 // ########################################################
-double MuonContaminationScaleFactor = 0.90;
+double MuonContaminationScaleFactor = 1.0;
     
 // ==========================================================================================================
 // 			SCALING THE INCIDENT HISTOGRAM FOR THE MUON CONTAMINATION
@@ -172,13 +172,25 @@ hVariableBinCrossSection->SetBinError(20,bin20error);
 // --------------------------------------------------------------------------------------------------------------------------
 
 
-// ############################
-// ### Load MC Plots        ###
-// ############################
-TFile *f2 = new TFile("../histoROOTfiles_forPlots/PionMCDD_RunII_HY_OutOfTheBox.root");
+// #########################
+// ### Load the MC Plots ###
+// #########################
+TFile *f3 = new TFile("../histoROOTfiles_forPlots/IncidentKE_MCHisto.root");
+
+TFile *f4 = new TFile("../histoROOTfiles_forPlots/InteractingKE_MCHisto.root");
  
- TH1F* hMCInc = (TH1F*)f2->Get("hRecoMCIncidentKEunweighted");
- TH1F* hMCInt = (TH1F*)f2->Get("hRecoMCInteractingKEunweighted");
+// TH1F* hMCInc = (TH1F*)f2->Get("hRecoMCIncidentKEunweighted");
+// TH1F* hMCInt = (TH1F*)f2->Get("hRecoMCInteractingKEunweighted");
+ TH1F* hMCInc = (TH1F*)f3->Get("hRecoMCIncidentKE");
+ TH1F* hMCInt = (TH1F*)f4->Get("hRecoMCInteractingKE");
+ 
+// hMCInt->Draw();
+
+ // ############################
+ // ### Load MC Plots        ###
+ // ############################
+TFile *f2 = new TFile("../histoROOTfiles_forPlots/PionMCDD_RunII_HY_OutOfTheBox.root");
+
  TH1F* MCCrossSection = (TH1F*)f2->Get("fCrossSection");
  TH1F* MCCrossSys = (TH1F*)fCrossSection->Clone();
  MCCrossSys->SetName("MCCrossSys");
@@ -482,7 +494,7 @@ gStyle->SetOptStat(0);
  hVariableBinCrossSection->GetYaxis()->SetTitle("");
 
  hVariableBinCrossSectionMCSys->SetAxisRange(50,1800.);
- hVariableBinCrossSectionMCSys->SetMaximum(2.5);
+ hVariableBinCrossSectionMCSys->SetMaximum(3.5);
  hVariableBinCrossSectionMCSys->SetMinimum(0);
  
  
@@ -499,7 +511,7 @@ t->SetNDC();
 t->SetTextFont(62);
 t->SetTextSize(0.04);
 t->SetTextAlign(40);
-t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
+t->DrawLatex(0.13,0.84,"LArIAT Preliminary");
 t->DrawLatex(0.13,0.84,"");
 
 TLegend *leg = new TLegend();
@@ -512,7 +524,7 @@ leg->SetShadowColor(kWhite);
 leg->SetHeader("LArIAT RunI/II Negative Polarity Data");
 leg->AddEntry(hVariableBinCrossSection,"Data, stat");
 leg->AddEntry(hVariableBinCrossSectionMCSys,"MC syst + stat"); 
-leg->AddEntry(hVariableBinCrossSectionMC,"MC central value + stat");
+leg->AddEntry(hVariableBinCrossSectionMC,"MC stat only");
 leg->Draw();
 
 //hVariableBinCrossSection->Draw();

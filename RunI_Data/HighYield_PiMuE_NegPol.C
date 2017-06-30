@@ -4,8 +4,12 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <iostream>
+#include <fstream>
 #include <TVector3.h>
 
+
+
+ofstream out("RunIHYNegPiMuE.txt");
 
 // ===================================================================================================================
 // ====================================       PUT HISTOGRAMS HERE           ==========================================
@@ -1266,9 +1270,11 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       
          }//<---End npoints loop
       }//<---End nTPCtrk loop   
+   int RunNumber    = run;
+   int SubRunNumber = subrun;
+   int EventNumber  = event;
    
-   
-   
+   out<<RunNumber<<" , "<<SubRunNumber<<" , "<<EventNumber<<std::endl;
    
    }//<----End jentry loop
    
@@ -1385,5 +1391,7 @@ hdataIncidentKE->Write();
 hdataInteractingKE->Write();
 fCrossSection->Write();
 hRecoLength->Write();
+
+out.close();
 
 }//<---End Loop() function

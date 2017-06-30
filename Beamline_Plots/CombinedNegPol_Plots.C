@@ -88,7 +88,7 @@ combined_histo->SetFillColor(kBlue);
 combined_histo->SetFillStyle(3005);
 combined_histo->SetLineColor(kBlue);
 combined_histo->SetLineWidth(2);
-combined_histo->Draw("Csames");
+//combined_histo->Draw("Csames");
 
 TH1D *wrong_histo1 = new TH1D("wrong_histo1","wrong_histo1",1000,-10,10);
 wrongMatch_01->SetRange(-30,30);
@@ -98,10 +98,10 @@ wrong_histo1->SetFillStyle(3005);
 wrong_histo1->SetLineWidth(2);
 wrong_histo1->SetLineColor(kRed);
 wrong_histo1->SetMarkerColor(kRed);
-wrong_histo1->Draw("Csame");
+//wrong_histo1->Draw("Csame");
 
 // ### Drawing the histogram ###
-hDataDeltaXMatch->Draw("E1same");
+//hDataDeltaXMatch->Draw("E1same");
 
 c01->Update();
 gPad->RedrawAxis();
@@ -126,8 +126,8 @@ leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
 leg->SetHeader("LArIAT Run-I/II Negative Polarity");
 leg->AddEntry(hDataDeltaXMatch,"Data");
-leg->AddEntry(combined_histo,"Right Match"); 
-leg->AddEntry(wrong_histo1,"Wrong Match");
+//leg->AddEntry(combined_histo,"Right Match"); 
+//leg->AddEntry(wrong_histo1,"Wrong Match");
 leg->Draw();
 
 
@@ -213,7 +213,7 @@ combined_histo2->SetFillColor(kBlue);
 combined_histo2->SetFillStyle(3005);
 combined_histo2->SetLineColor(kBlue);
 combined_histo2->SetLineWidth(2);
-combined_histo2->Draw("Csames");
+//combined_histo2->Draw("Csames");
 
 TH1D *wrong_histo2 = new TH1D("wrong_histo2","wrong_histo1",1000,-10,10);
 wrongMatch_02->SetRange(-30,30);
@@ -223,7 +223,7 @@ wrong_histo2->SetFillStyle(3005);
 wrong_histo2->SetLineWidth(2);
 wrong_histo2->SetLineColor(kRed);
 wrong_histo2->SetMarkerColor(kRed);
-wrong_histo2->Draw("Csame");
+//wrong_histo2->Draw("Csame");
 
 // ### Drawing the histogram ###
 hDataDeltaYMatch->Draw("E1same");
@@ -251,8 +251,8 @@ leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
 leg->SetHeader("LArIAT Run-I/II Negative Polarity");
 leg->AddEntry(hDataDeltaYMatch,"Data");
-leg->AddEntry(combined_histo2,"Right Match"); 
-leg->AddEntry(wrong_histo2,"Wrong Match");
+//leg->AddEntry(combined_histo2,"Right Match"); 
+//leg->AddEntry(wrong_histo2,"Wrong Match");
 leg->Draw();
 
 //--------------------------------------------------------------------------------------------------------------
