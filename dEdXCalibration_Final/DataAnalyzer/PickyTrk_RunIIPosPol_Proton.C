@@ -1,53 +1,10 @@
-#define PickyTrk_RunIIPos_Proton_cxx
-#include "PickyTrk_RunIIPos_Proton.h"
+#define PickyTrk_RunIIPosPol_Proton_cxx
+#include "PickyTrk_RunIIPosPol_Proton.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <iostream>
 #include <TVector3.h>
-
-// #######################################################################################
-// ### This is the macro for data analysis of the matched track sample of tracks based ###
-// ### on the latest cuts using Run I Negative Polarity in LArIATsoft version 06_15_00 ###
-// #######################################################################################
-
-
-float corrdEdx(float dEdx)
-{
-  
-  // ###########################################
-  // ### Putting in the calorimetry constant ###
-  // ###########################################
-  
-  // *** 06_15_00 Run-1 Data Induction Plane:  0.0247 ***
-  // *** 06_15_00 Run-1 Data Collection Plane: 0.048 ***
-  
-  float caloconstant = 0.055;
-  
-  
-  float rho    = 1.383;
-  float beta   = 0.3 ;// cm / MeV
-  float betap  = 0.212; //(kV/cm)(g/cm^2)/MeV 
-  float alpha  = 0.93;
-  float Wion   = 23.6 / 1E6;// MeV / e-
-  float Efield = 0.5;
-
-  float dQdx = log(dEdx * betap/(rho*Efield) + alpha) / (betap/(rho*Efield) * Wion);
-  
-  //dQdx *= 0.0153/caloconstant;
-  dQdx *= 0.055/caloconstant;
-  
-  
-  //dQdx *= 0.0153/0.0382;
-
-  float newdQdx = (exp(betap/(rho*Efield) * Wion * dQdx) - alpha)/(betap/(rho*Efield));
-  //cout<<newdQdx<<endl;
-
-  return newdQdx;
-}
-
-// ### Possible Collection Plane ###
-// 0.058
 
 // ===================================================================================================================
 // ====================================       PUT HISTOGRAMS HERE           ==========================================
@@ -72,6 +29,9 @@ TH1D *hdataAlpha = new TH1D("hdataAlpha", "#alpha between WC and TPC Track", 90,
 
 /////////////////////////////////// Number of Matched Tracks ////////////////////////////////////////////////
 TH1D *hdataNMatchTPCWCTrk = new TH1D("hdataNMatchTPCWCTrk", "Number of matched TPC/WC Tracks", 20, 0, 10);
+
+/////////////////////////////////// Track Length Used in Calibration ////////////////////////////////////////////////
+TH1D *hdataCalibTrkLength = new TH1D("hdataCalibTrkLength", "Track length used in calibration", 80, 0, 40);
 
 /////////////////////////////////// "Matched Track" dE/dX 150 - 200 MeV Momentum /////////////////////////////////////////////////////
 TH1D *hdatadEdX = new TH1D("hdatadEdX", "Matched Track dE/dX", 200, 0, 50);
@@ -144,8 +104,7 @@ TH1D *hdatadEdX_1150_1200 = new TH1D("hdatadEdX_1150_1200", "Matched Track dE/dX
 
 
 
-
-void PickyTrk_RunIIPos_Proton::Loop()
+void PickyTrk_RunIIPosPol_Proton::Loop()
 {
 if (fChain == 0) return;
 Long64_t nentries = fChain->GetEntriesFast();
@@ -201,14 +160,14 @@ double ZUpperFid = 90;
 
 // ###                 Note: Format for this variable is:             ###
 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
-int plane = 0;
+int plane = 1;
 
 
 // ########################################################################
 // ### Definition of the upstream part of the TPC where we restrict the ###
 // ###             number of tracks which can be present                ###
 // ########################################################################
-int UpperPartOfTPC = 14.0;
+int UpperPartOfTPC = 5.0;
 
 // #################################################################################
 // ### Making shower Cut (ShortTkLength) and the number of short tracks we allow ###
@@ -262,7 +221,7 @@ bool VERBOSE = false;
 
 
 // ### The assumed energy loss between the cryostat and the TPC ###
-float entryTPCEnergyLoss = 65.; //MeV
+float entryTPCEnergyLoss = 40.; //MeV
 
 
 // ##########################################################
@@ -280,9 +239,8 @@ int MatchWCTrackIndex[10] = {0};
 
 // ====================================================
 // ======  Make histogram file for data sample  ======= 
-//TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunIIPos_Picky_Proton.root","RECREATE");
-
-TFile myfile("../histoROOTfiles_forPlots/dEdXCalib_RunIIPos_Picky_Proton_Induction.root","RECREATE");
+TFile myfile("../../histoROOTfiles_forPlots/dEdXCalib_RunIIPos_Picky_Proton_Collection.root","RECREATE");
+//TFile myfile("../../histoROOTfiles_forPlots/dEdXCalib_RunIIPos_Picky_Proton_Induction.root","RECREATE");
 
 // ###############################
 // ### Looping over all events ###
@@ -525,7 +483,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 // ##########################################################################
 	 // ### Calculating the Delta X and Delta Y between WC track and TPC track ###
 	 // ##########################################################################
-	 DeltaX_WC_TPC_Track = FirstSpacePointX - (wctrk_XFaceCoor[numWCTrk]);//<---Note: *0.1 to convert to cm
+	 DeltaX_WC_TPC_Track = FirstSpacePointX - (wctrk_XFaceCoor[numWCTrk]);
 	 DeltaY_WC_TPC_Track = FirstSpacePointY - (wctrk_YFaceCoor[numWCTrk]);
 	 
 	 
@@ -860,6 +818,8 @@ if(AtLeastOneThroughGoingTrack){nEvtsThroughGoing++;}
       // ### Skipping any track with too few spacepoints ###
       if(nSpacePoints[nTPCtrk] < 20 && AtLeastOneThroughGoingTrack){continue;}
       
+      double trkLengthUsed = 0;
+      
       
       for(int nspts = 0; nspts < nSpacePoints[nTPCtrk]; nspts++)
          {
@@ -868,7 +828,17 @@ if(AtLeastOneThroughGoingTrack){nEvtsThroughGoing++;}
 	 if(DataSptPitch[nTPCtrk][nspts] > 0.4)
 	 {hdataTrkPitch->Fill(DataSptPitch[nTPCtrk][nspts]);}
 	 
+	 if(nspts < 12)
+	    {
+	    trkLengthUsed += DataSptPitch[nTPCtrk][nspts];
+	    
+	    }//<---end using only first few points
+	 
 	 }
+      
+      // ### Filling the track length used for the calibration ###
+      hdataCalibTrkLength->Fill(trkLengthUsed);
+      
       
       // -----------------------------
       // --- 150 MeV < P < 200 MeV ---
@@ -1241,6 +1211,8 @@ hdataTrkPitch->Write();
 hdataDeltaWCTrkX->Write();
 hdataDeltaWCTrkY->Write();
 hdataAlpha->Write();
+hdataCalibTrkLength->Write();
+
 
 hdatadEdX_150_200->Write();
 hdatadEdX_200_250->Write();

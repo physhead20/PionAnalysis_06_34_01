@@ -18,7 +18,7 @@ double M_ka=493.7; // kaon mass [MeV]
 double M_proton=938.3;
 double I=188e-6;   // ionization energy for LAr [MeV]
 double width=0.47;     // wire pitch, detector width [cm]
-double rho=2.329;  // density of LAr
+double rho=1.396;  // density of LAr
 double j=0.2;      // Landau's constant
 
 // these functions are plotted in independent variable of units 

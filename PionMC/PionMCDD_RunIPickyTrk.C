@@ -364,11 +364,29 @@ int nTotalEvents = 0, nEvtsWCTrack = 0, nEvtsWCTrackMatch = 0, nEvtsTrackZPos = 
 int nEvtsTOF = 0, nEvtsPID = 0, nLowZTrkEvents = 0;
 int nNonShowerEvents = 0, nEvtsGoodMC = 0;
 
+
+
+float nTotalPion_100_200 = 0, nPassingPion_100_200 = 0;
+float nTotalPion_200_300 = 0, nPassingPion_200_300 = 0;
+float nTotalPion_300_400 = 0, nPassingPion_300_400 = 0;
+float nTotalPion_400_500 = 0, nPassingPion_400_500 = 0;
+float nTotalPion_500_600 = 0, nPassingPion_500_600 = 0;
+float nTotalPion_600_700 = 0, nPassingPion_600_700 = 0;
+float nTotalPion_700_800 = 0, nPassingPion_700_800 = 0;
+float nTotalPion_800_900 = 0, nPassingPion_800_900 = 0;
+float nTotalPion_900_1000 = 0, nPassingPion_900_1000 = 0;
+float nTotalPion_1000_1100 = 0, nPassingPion_1000_1100 = 0;
+float nTotalPion_1100_1200 = 0, nPassingPion_1100_1200 = 0;
+float nTotalPion_1200_1300 = 0, nPassingPion_1200_1300 = 0;
+float nTotalPion_1300_1400 = 0, nPassingPion_1300_1400 = 0;
+float nTotalPion_1400_1500 = 0, nPassingPion_1400_1500 = 0;
+float nTotalPion_1500_1600 = 0, nPassingPion_1500_1600 = 0;
+
 // ###############################
 // ### Looping over all events ###
 // ###############################
 for (Long64_t jentry=0; jentry<nentries;jentry++) 
-//for (Long64_t jentry=0; jentry<1000;jentry++)
+//for (Long64_t jentry=0; jentry<10000;jentry++)
    {
    
    // #########################
@@ -603,6 +621,22 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    nEvtsGoodMC++;
 
    
+   float EffMomentum = sqrt( (g4Primary_Px[0]*g4Primary_Px[0]) + (g4Primary_Py[0]*g4Primary_Py[0]) + (g4Primary_Pz[0]*g4Primary_Pz[0]) );
+   
+   if(EffMomentum > 100 && EffMomentum < 200){nTotalPion_100_200++;}
+   if(EffMomentum > 200 && EffMomentum < 300){nTotalPion_200_300++;}
+   if(EffMomentum > 300 && EffMomentum < 400){nTotalPion_300_400++;}
+   if(EffMomentum > 400 && EffMomentum < 500){nTotalPion_400_500++;}
+   if(EffMomentum > 500 && EffMomentum < 600){nTotalPion_500_600++;}
+   if(EffMomentum > 600 && EffMomentum < 700){nTotalPion_600_700++;}
+   if(EffMomentum > 700 && EffMomentum < 800){nTotalPion_700_800++;}
+   if(EffMomentum > 800 && EffMomentum < 900){nTotalPion_800_900++;}
+   if(EffMomentum > 900 && EffMomentum < 1000){nTotalPion_900_1000++;}
+   if(EffMomentum > 1000 && EffMomentum < 1100){nTotalPion_1000_1100++;}
+   if(EffMomentum > 1100 && EffMomentum < 1200){nTotalPion_1100_1200++;}
+   if(EffMomentum > 1200 && EffMomentum < 1300){nTotalPion_1200_1300++;}
+   if(EffMomentum > 1300 && EffMomentum < 1400){nTotalPion_1300_1400++;}
+   if(EffMomentum > 1400 && EffMomentum < 1500){nTotalPion_1400_1500++;}
 
    //=======================================================================================================================
    //						Low Z Spacepoint Track Cut
@@ -1426,8 +1460,24 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
          }//<---End npoints loop
       }//<---End nTPCtrk loop
 
-
-
+   if(EffMomentum > 100 && EffMomentum < 200){nPassingPion_100_200++;}
+   if(EffMomentum > 200 && EffMomentum < 300){nPassingPion_200_300++;}
+   if(EffMomentum > 300 && EffMomentum < 400){nPassingPion_300_400++;}
+   if(EffMomentum > 400 && EffMomentum < 500){nPassingPion_400_500++;}
+   if(EffMomentum > 500 && EffMomentum < 600){nPassingPion_500_600++;}
+   if(EffMomentum > 600 && EffMomentum < 700){nPassingPion_600_700++;}
+   if(EffMomentum > 700 && EffMomentum < 800){nPassingPion_700_800++;}
+   if(EffMomentum > 800 && EffMomentum < 900){nPassingPion_800_900++;}
+   if(EffMomentum > 900 && EffMomentum < 1000){nPassingPion_900_1000++;}
+   if(EffMomentum > 1000 && EffMomentum < 1100){nPassingPion_1000_1100++;}
+   if(EffMomentum > 1100 && EffMomentum < 1200){nPassingPion_1100_1200++;}
+   if(EffMomentum > 1200 && EffMomentum < 1300){nPassingPion_1200_1300++;}
+   if(EffMomentum > 1300 && EffMomentum < 1400){nPassingPion_1300_1400++;}
+   if(EffMomentum > 1400 && EffMomentum < 1500){nPassingPion_1400_1500++;}
+   
+   
+   
+   
 
 
    }//<---End jentry loop
@@ -1502,6 +1552,41 @@ std::cout<<"###              ( "<<DeltaXLowerBound<<" < Delta X < "<<DeltaXUpper
 std::cout<<"###                 and alpha less the "<<alphaCut<<" degrees                      ###"<<std::endl;
 std::cout<<"########################################################################"<<std::endl;
 std::cout<<std::endl;   
+std::cout<<std::endl;
+
+float Eff_100_200 = nPassingPion_100_200 / nTotalPion_100_200;
+float Eff_200_300 = nPassingPion_200_300 / nTotalPion_200_300;
+float Eff_300_400 = nPassingPion_300_400 / nTotalPion_300_400;
+float Eff_400_500 = nPassingPion_400_500 / nTotalPion_400_500;
+float Eff_500_600 = nPassingPion_500_600 / nTotalPion_500_600;
+float Eff_600_700 = nPassingPion_600_700 / nTotalPion_600_700;
+
+float Eff_700_800 = nPassingPion_700_800 / nTotalPion_700_800;
+float Eff_800_900 = nPassingPion_800_900 / nTotalPion_800_900;
+float Eff_900_1000 = nPassingPion_900_1000 / nTotalPion_900_1000;
+float Eff_1000_1100 = nPassingPion_1000_1100 / nTotalPion_1000_1100;
+float Eff_1100_1200 = nPassingPion_1100_1200 / nTotalPion_1100_1200;
+float Eff_1200_1300 = nPassingPion_1200_1300 / nTotalPion_1200_1300;
+
+float Eff_1300_1400 = nPassingPion_1300_1400 / nTotalPion_1300_1400;
+float Eff_1400_1500 = nPassingPion_1400_1500 / nTotalPion_1400_1500;
+
+
+
+std::cout<<"Eff_100_200 = "<<Eff_100_200<<std::endl;
+std::cout<<"Eff_200_300 = "<<Eff_200_300<<std::endl;
+std::cout<<"Eff_300_400 = "<<Eff_300_400<<std::endl;
+std::cout<<"Eff_400_500 = "<<Eff_400_500<<std::endl;
+std::cout<<"Eff_500_600 = "<<Eff_500_600<<std::endl;
+std::cout<<"Eff_600_700 = "<<Eff_600_700<<std::endl;
+std::cout<<"Eff_700_800 = "<<Eff_700_800<<std::endl;
+std::cout<<"Eff_800_900 = "<<Eff_800_900<<std::endl;
+std::cout<<"Eff_900_1000 = "<<Eff_900_1000<<std::endl;
+std::cout<<"Eff_1000_1100 = "<<Eff_1000_1100<<std::endl;   
+std::cout<<"Eff_1100_1200 = "<<Eff_1100_1200<<std::endl; 
+std::cout<<"Eff_1200_1300 = "<<Eff_1200_1300<<std::endl; 
+std::cout<<"Eff_1300_1400 = "<<Eff_1300_1400<<std::endl; 
+std::cout<<"Eff_1400_1500 = "<<Eff_1400_1500<<std::endl; 
    
 // ===========================================================================================
 // ============================  Writing out histograms to ROOT File =========================
