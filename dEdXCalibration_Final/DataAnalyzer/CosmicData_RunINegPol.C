@@ -323,7 +323,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
          {
 	 // ###                 Note: Format for this variable is:             ###
 	 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
-         DatadEdX[nDataTrks][nDataSpts]     = trkdedx[nTPCtrk][plane][nspts];
+         DatadEdX[nDataTrks][nDataSpts]     = trkdedx[nTPCtrk][plane][nspts] * 0.95;
 	 DatadQdX[nDataTrks][nDataSpts]     = trkdqdx[nTPCtrk][plane][nspts];
 	 
 	 // ### Putting in a fix in the case that the dE/dX is negative in this step ### 

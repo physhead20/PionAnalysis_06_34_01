@@ -178,13 +178,13 @@ double dEdXErrorLessbinPionMC[11] = {0.};
 // ########################
 
 
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus.root");
+TFile *f1 = new TFile("../../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus_Collection.root");
 
 // #######################
 // ### Induction Plane ###
 // #######################
 
-//TFile *f1 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus_Induction.root");
+//TFile *f1 = new TFile("../../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_PiMinus_Induction.root");
 
 
 //------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ TH1F *h200_250 = (TH1F*)f1->Get("hdatadEdX_200_250");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h200_250->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h200_250->GetXaxis()->SetRangeUser(1.25,15);
+h200_250->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[1]       = data_gaus->GetParameter(1);
 //dEdXPionMC[1]       = h200_250->GetMean(1);
@@ -225,7 +225,7 @@ TH1F *h250_300 = (TH1F*)f1->Get("hdatadEdX_250_300");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h250_300->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h250_300->GetXaxis()->SetRangeUser(1.25,15);
+h250_300->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[2]       = data_gaus->GetParameter(1);
 //dEdXPionMC[2]       = h250_300->GetMean(1);
@@ -238,7 +238,7 @@ TH1F *h300_350 = (TH1F*)f1->Get("hdatadEdX_300_350");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h300_350->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h300_350->GetXaxis()->SetRangeUser(1.25,15);
+h300_350->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[3]       = data_gaus->GetParameter(1);
 //dEdXPionMC[3]       = h300_350->GetMean(1);
@@ -258,7 +258,7 @@ TH1F *h350_400 = (TH1F*)f1->Get("hdatadEdX_350_400");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h350_400->Fit(data_gaus,"R+0LLi","0",1.25, 5.25);
-h350_400->GetXaxis()->SetRangeUser(1.25,15);
+h350_400->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[4]       = data_gaus->GetParameter(1);
 //dEdXPionMC[4]       = h350_400->GetMean(1);
@@ -271,7 +271,7 @@ TH1F *h400_450 = (TH1F*)f1->Get("hdatadEdX_400_450");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h400_450->Fit(data_gaus,"R+0LLi","0",1.25, 3.0);
-h400_450->GetXaxis()->SetRangeUser(1.25,15);
+h400_450->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[5]       = data_gaus->GetParameter(1);
 //dEdXPionMC[5]       = h400_450->GetMean(1);
@@ -290,7 +290,7 @@ TH1F *h450_500 = (TH1F*)f1->Get("hdatadEdX_450_500");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h450_500->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h450_500->GetXaxis()->SetRangeUser(1.25,15);
+h450_500->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[6]       = data_gaus->GetParameter(1);
 //dEdXPionMC[6]       = h450_500->GetMean(1);
@@ -304,7 +304,7 @@ TH1F *h500_550 = (TH1F*)f1->Get("hdatadEdX_500_550");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h500_550->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h500_550->GetXaxis()->SetRangeUser(1.25,15);
+h500_550->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[7]       = data_gaus->GetParameter(1);
 //dEdXPionMC[7]       = h500_550->GetMean(1);
@@ -324,7 +324,7 @@ TH1F *h550_600 = (TH1F*)f1->Get("hdatadEdX_550_600");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h550_600->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h550_600->GetXaxis()->SetRangeUser(1.25,15);
+h550_600->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[8]       = data_gaus->GetParameter(1);
 //dEdXPionMC[8]       = h550_600->GetMean(1);
@@ -338,7 +338,7 @@ TH1F *h600_650 = (TH1F*)f1->Get("hdatadEdX_600_650");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h600_650->Fit(data_gaus,"R+0LLi","0",1.25, 4.00);
-h600_650->GetXaxis()->SetRangeUser(1.25,15);
+h600_650->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[9]       = data_gaus->GetParameter(1);
 //dEdXPionMC[9]       = h600_650->GetMean(1);
@@ -357,7 +357,7 @@ TH1F *h650_700 = (TH1F*)f1->Get("hdatadEdX_650_700");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h650_700->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h650_700->GetXaxis()->SetRangeUser(1.25,15);
+h650_700->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[10]       = data_gaus->GetParameter(1);
 //dEdXPionMC[10]       = h650_700->GetMean(1);
@@ -370,7 +370,7 @@ TH1F *h700_750 = (TH1F*)f1->Get("hdatadEdX_700_750");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h700_750->Fit(data_gaus,"R+0LLi","0",1.25, 6.00);
-h700_750->GetXaxis()->SetRangeUser(1.25,15);
+h700_750->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[11]       = data_gaus->GetParameter(1);
 //dEdXPionMC[11]       = h700_750->GetMean(1);
@@ -389,7 +389,7 @@ TH1F *h750_800 = (TH1F*)f1->Get("hdatadEdX_750_800");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h750_800->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h750_800->GetXaxis()->SetRangeUser(1.25,15);
+h750_800->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[12]       = data_gaus->GetParameter(1);
 //dEdXPionMC[12]       = h750_800->GetMean(1);
@@ -402,7 +402,7 @@ TH1F *h800_850 = (TH1F*)f1->Get("hdatadEdX_800_850");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h800_850->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h800_850->GetXaxis()->SetRangeUser(1.25,15);
+h800_850->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[13]       = data_gaus->GetParameter(1);
 //dEdXPionMC[13]       = h800_850->GetMean(1);
@@ -421,7 +421,7 @@ TH1F *h850_900 = (TH1F*)f1->Get("hdatadEdX_850_900");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h850_900->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h850_900->GetXaxis()->SetRangeUser(1.25,15);
+h850_900->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[14]       = data_gaus->GetParameter(1);
 //dEdXPionMC[14]       = h850_900->GetMean(1);
@@ -434,7 +434,7 @@ TH1F *h900_950 = (TH1F*)f1->Get("hdatadEdX_900_950");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h900_950->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h900_950->GetXaxis()->SetRangeUser(1.25,15);
+h900_950->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[15]       = data_gaus->GetParameter(1);
 dEdXErrorPionMC[15]  = data_gaus->GetParError(1);
@@ -451,7 +451,7 @@ TH1F *h950_1000 = (TH1F*)f1->Get("hdatadEdX_950_1000");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h950_1000->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h950_1000->GetXaxis()->SetRangeUser(1.25,15);
+h950_1000->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[16]       = data_gaus->GetParameter(1);
 dEdXErrorPionMC[16]  = data_gaus->GetParError(1);
@@ -463,7 +463,7 @@ TH1F *h1000_1050 = (TH1F*)f1->Get("hdatadEdX_1000_1050");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h1000_1050->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h1000_1050->GetXaxis()->SetRangeUser(1.25,15);
+h1000_1050->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[17]       = data_gaus->GetParameter(1);
 dEdXErrorPionMC[17]  = data_gaus->GetParError(1);
@@ -479,7 +479,7 @@ TH1F *h1050_1100 = (TH1F*)f1->Get("hdatadEdX_1050_1100");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h1050_1100->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h1050_1100->GetXaxis()->SetRangeUser(1.25,15);
+h1050_1100->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[18]       = data_gaus->GetParameter(1);
 dEdXErrorPionMC[18]  = data_gaus->GetParError(1);
@@ -490,7 +490,7 @@ TH1F *h1100_1150 = (TH1F*)f1->Get("hdatadEdX_1100_1150");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h1100_1150->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h1100_1150->GetXaxis()->SetRangeUser(1.25,15);
+h1100_1150->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[19]       = data_gaus->GetParameter(1);
 dEdXErrorPionMC[19]  = data_gaus->GetParError(1);
@@ -502,7 +502,7 @@ TH1F *h1150_1200 = (TH1F*)f1->Get("hdatadEdX_1150_1200");
 TF1 *data_gaus = new TF1("data_gaus","landau",0, 50);
 // ### Fitting the data dE/dX peak with Gaussian ###
 h1150_1200->Fit(data_gaus,"R+0LLi","0",1.25, 5.00);
-h1150_1200->GetXaxis()->SetRangeUser(1.25,15);
+h1150_1200->GetXaxis()->SetRangeUser(0.5,15);
 
 dEdXPionMC[20]       = data_gaus->GetParameter(1);
 dEdXErrorPionMC[20]  = data_gaus->GetParError(1);
@@ -518,7 +518,7 @@ dEdXErrorLessbinPionMC[9] = sqrt( (dEdXErrorPionMC[18]*dEdXErrorPionMC[18])+(dEd
 // ##########################
 const Int_t nPionData = 20;
 
-double binXLessbin[20] = {200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100};
+double binXLessbin[20] = {150, 250, 350, 450, 550, 650, 750, 850, 950, 1050, 1150, 1250, 1350, 1450, 1550, 1700, 1800, 1900, 2000, 2100};
 double binXErrorLessbin[20] = {0.};
 
 for(int a = 0; a < nPionData; a++){binXErrorLessbin[a] = 50.;}
@@ -555,7 +555,7 @@ double dEdXErrorLessbin[11] = {0.};
 // ### Collection Plane ###
 // ########################
 
-TFile *f2 = new TFile("../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_Proton.root");
+TFile *f2 = new TFile("../../histoROOTfiles_forPlots/dEdXCalib_DDMC_RunIPicky_Proton_Collection.root");
 
 
 //------------------------------------------------------------------------------
@@ -847,12 +847,12 @@ dEdXLessbin[9] = (dEdX[18] + dEdX[19] + dEdX[20]) / 3;
 dEdXErrorLessbin[9] = sqrt( (dEdXError[18]*dEdXError[18])+(dEdXError[19]*dEdXError[19]) + (dEdXError[20]*dEdXError[20]));
 
 
-double binXLessbinProton[11] = {200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100};
-double binXErrorLessbinProton[11] = {0.};
+double binXLessbinProton[20] = {150, 250, 350, 450, 550, 650, 750, 850, 950, 1050, 1150, 1250, 1350, 1450, 1550, 1700, 1800, 1900, 2000, 2100};
+double binXErrorLessbinProton[20] = {0.};
 
-for(int a = 0; a < 11; a++){binXErrorLessbinProton[a] = 50.;}
+for(int a = 0; a < 20; a++){binXErrorLessbinProton[a] = 50.;}
 
-const Int_t nproton = 10;
+const Int_t nproton = 20;
 
 // ### Finely binned Data ###
 grprotondata  = new TGraphErrors(nproton,binXLessbinProton,dEdXLessbin,binXErrorLessbinProton,dEdXErrorLessbin);
@@ -906,15 +906,17 @@ grprotondata->SetLineWidth(2);
   dE_dxMu->SetMaximum(8);
 
  TLegend *legend = new TLegend(0.7,0.90,.95,0.65);
- legend->SetHeader("Plotted Functions");
- legend->AddEntry("dE_dxMu","#LTdE/dx#GT muon","l");
- legend->AddEntry("E_mostProbMu","#Delta_{p}/x muon, x=4.7mm","l");
- legend->AddEntry("dE_dxPi","#LTdE/dx#GT pion","l");
- legend->AddEntry("E_mostProbPi","#Delta_{p}/x pion, x=4.7mm","l");
- legend->AddEntry("dE_dxKa","#LTdE/dx#GT Kaon","l");
- legend->AddEntry("E_mostProbKaon","#Delta_{p}/x kaon, x=4.7mm","l");
- legend->AddEntry("dE_dxProton","#LTdE/dx#GT Proton","l");
- legend->AddEntry("E_mostProbProton","#Delta_{p}/x proton, x=4.7mm","l");
+ legend->SetHeader("LArIAT MC");
+ legend->AddEntry("dE_dxMu","#mu #LTdE/dx#GT","l");
+ legend->AddEntry("E_mostProbMu","#mu MPV/width","l");
+ legend->AddEntry("dE_dxPi","#pi #LTdE/dx#GT","l");
+ legend->AddEntry("E_mostProbPi","#pi MPV/width","l");
+ legend->AddEntry("grPionData","Run-I #pi^{-} MC","l");
+ legend->AddEntry("dE_dxKa","Kaon #LTdE/dx#GT","l");
+ legend->AddEntry("E_mostProbKaon","Kaon MPV/width","l");
+ legend->AddEntry("dE_dxProton","Proton #LTdE/dx#GT","l");
+ legend->AddEntry("E_mostProbProton","Proton MPV/width","l");
+ legend->AddEntry("grprotondata","Run-I proton MC","l");
  legend->Draw("same");
 }
 

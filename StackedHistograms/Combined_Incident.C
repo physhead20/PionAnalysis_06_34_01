@@ -10,11 +10,11 @@
 // ###       spreadsheet goes into these catagories to scale the particle species appropriately
 // ######################################################################################################
 // ######################################################################################################
-double PionPercentage     = 0.56350;
-double MuonPercentage     = 12.4838;
-double ElectronPercentage = 0.39751;
-double PhotonPercentage   = 0.08807;
-double KaonPercentage     = 27.6608;
+double PionPercentage     = 0.4353670158;
+double MuonPercentage     = 7.8650597419;
+double ElectronPercentage = 0.5213674298;
+double PhotonPercentage   = 0.2335114325;
+double KaonPercentage     = 4.1022939363;
 
 /*double PionPercentage     = 1.0;
 double MuonPercentage     = 1.0;
@@ -26,28 +26,28 @@ double KaonPercentage     = 1.0;*/
 // #######################
 // ### Load Data Plots ###
 // #######################
-TFile *f1 = new TFile("../histoROOTfiles_forPlots/Combined_RunI_RunII_HY_PiMuE_dataHisto.root");
+TFile *f1 = new TFile("../histoROOTfiles_forPlots/Combined_RunI_RunII_HY_PiMuE_dataHisto_UpdateAugust2017.root");
 
 
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-TFile *f2 = new TFile("../histoROOTfiles_forPlots/PionMCDD_RunII_HY_OutOfTheBox.root");
+TFile *f2 = new TFile("../histoROOTfiles_forPlots/DDMC_Pion_CombinedRuns_histo.root");
 
 // ###################################
 // ### Load Muon Monte Carlo Plots ###
 // ###################################
-TFile *f3 = new TFile("../histoROOTfiles_forPlots/MuonMCDD_RunII_HY_OutOfTheBox.root");
+TFile *f3 = new TFile("../histoROOTfiles_forPlots/DDMC_Muon_RunIIHY_histo.root");
 
 // #######################################
 // ### Load Electron Monte Carlo Plots ###
 // #######################################
-TFile *f4 = new TFile("../histoROOTfiles_forPlots/ElectronMCDD_RunII_HY_OutOfTheBox.root");
+TFile *f4 = new TFile("../histoROOTfiles_forPlots/DDMC_Electron_RunIIHY_histo.root");
 
 // ###################################
 // ### Load Kaon Monte Carlo Plots ###
 // ###################################
-TFile *f5 = new TFile("../histoROOTfiles_forPlots/KaonMC_RunII_OutOfTheBox.root");
+TFile *f5 = new TFile("../histoROOTfiles_forPlots/DDMC_Kaon_RunII_histo.root");
 
 // #####################################
 // ### Load Photon Monte Carlo Plots ###
@@ -76,7 +76,7 @@ hDataInKE->GetYaxis()->CenterTitle();
 // ### Note: If you have a 10% contamination than your  ###
 // ###            scale factor should be 0.90           ###
 // ########################################################
-double MuonContaminationScaleFactor = 0.90;
+double MuonContaminationScaleFactor = 1.0;
     
 // ===============================================================================================================
 // 					SCALING FOR THE MUON CONTAMINATION
